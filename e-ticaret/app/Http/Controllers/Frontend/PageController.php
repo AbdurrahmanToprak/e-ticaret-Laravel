@@ -16,7 +16,11 @@ class PageController extends Controller
     }
     public function products()
     {
-        //
+        return view("frontend.pages.products");
+    }
+    public function cart()
+    {
+        return view("frontend.pages.cart");
     }
     public function about()
     {
@@ -28,7 +32,7 @@ class PageController extends Controller
     }
     public function productDetail()
     {
-        //
+        return view("frontend.pages.product");
     }
 
     /**

@@ -6,7 +6,7 @@
                 <div class="col-6 col-md-4 order-2 order-md-1 site-search-icon text-left">
                     <form action="" class="site-block-top-search">
                         <span class="icon icon-search2"></span>
-                        <input type="text" class="form-control border-0" placeholder="Search">
+                        <input type="text" class="form-control border-0" placeholder="Ara">
                     </form>
                 </div>
 
@@ -22,7 +22,7 @@
                             <li><a href="#"><span class="icon icon-person"></span></a></li>
                             <li><a href="#"><span class="icon icon-heart-o"></span></a></li>
                             <li>
-                                <a href="cart.html" class="site-cart">
+                                <a href="{{route('cart')}}" class="site-cart">
                                     <span class="icon icon-shopping_cart"></span>
                                     <span class="count">2</span>
                                 </a>
@@ -38,9 +38,9 @@
     <nav class="site-navigation text-right text-md-center" role="navigation">
         <div class="container">
             <ul class="site-menu js-clone-nav d-none d-md-block">
-                <li><a class="active" href="{{route('home')}}">Home</a></li>
+                <li><a class="active" href="{{route('home')}}">Ana Sayfa</a></li>
                 <li class="has-children">
-                    <a href="#">Category</a>
+                    <a href="#">Kategoriler</a>
                     <ul class="dropdown">
                         <li><a href="#">Menu One</a></li>
                         <li><a href="#">Menu Two</a></li>
@@ -55,18 +55,12 @@
                         </li>
                     </ul>
                 </li>
-                <li class="has-children">
-                    <a href="{{route('about')}}">About</a>
-                    <ul class="dropdown">
-                        <li><a href="#">Menu One</a></li>
-                        <li><a href="#">Menu Two</a></li>
-                        <li><a href="#">Menu Three</a></li>
-                    </ul>
+                <li>
+                    <a href="{{route('about')}}">Hakkımızda</a>
                 </li>
-                <li><a href="shop.html">Shop</a></li>
-                <li><a href="#">Catalogue</a></li>
-                <li><a href="#">New Arrivals</a></li>
-                <li><a href="{{route('contact')}}">Contact</a></li>
+                <li><a href="{{route('products')}}">Ürünler</a></li>
+
+                <li><a href="{{route('contact')}}">İletişim</a></li>
             </ul>
         </div>
     </nav>
