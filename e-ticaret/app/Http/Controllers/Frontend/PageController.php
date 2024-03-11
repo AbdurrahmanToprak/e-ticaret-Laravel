@@ -18,6 +18,10 @@ class PageController extends Controller
     {
         return view("frontend.pages.products");
     }
+    public function productsOnSale()
+    {
+        return view("frontend.pages.products");
+    }
     public function cart()
     {
         return view("frontend.pages.cart");
