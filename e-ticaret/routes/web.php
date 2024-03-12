@@ -15,13 +15,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [PageHomeController::class , 'index'])->name('home');
-Route::get('/erkek-urunleri', [PageController::class , 'products'])->name('man-clothes');
-Route::get('/kadin-urunleri', [PageController::class , 'products'])->name('woman-clothes');
-Route::get('/cocuk-urunleri', [PageController::class , 'products'])->name('child-clothes');
-Route::get('/indirimdeki-urunler', [PageController::class , 'productsOnSale'])->name('productsOnSale');
-Route::get('/hakkimizda', [PageController::class , 'about'])->name('about');
-Route::get('/iletisim', [PageController::class , 'contact'])->name('contact');
-Route::get('/urunler', [PageController::class , 'products'])->name('products');
-Route::get('/urun/detay', [PageController::class , 'productDetail'])->name('productDetail');
-Route::get('/sepet', [PageController::class , 'cart'])->name('cart');
+Route::group(['middleware' => 'sitesetting'] , function () {
+
+    Route::get('/', [PageHomeController::class , 'index'])->name('home');
+    Route::get('/erkek-urunleri', [PageController::class , 'products'])->name('man-clothes');
+    Route::get('/kadin-urunleri', [PageController::class , 'products'])->name('woman-clothes');
+    Route::get('/cocuk-urunleri', [PageController::class , 'products'])->name('child-clothes');
+    Route::get('/indirimdeki-urunler', [PageController::class , 'productsOnSale'])->name('productsOnSale');
+    Route::get('/hakkimizda', [PageController::class , 'about'])->name('about');
+    Route::get('/iletisim', [PageController::class , 'contact'])->name('contact');
+    Route::get('/urunler', [PageController::class , 'products'])->name('products');
+    Route::get('/urun/detay', [PageController::class , 'productDetail'])->name('productDetail');
+    Route::get('/sepet', [PageController::class , 'cart'])->name('cart');
+
+});
+
