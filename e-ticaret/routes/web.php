@@ -27,7 +27,7 @@ Route::group(['middleware' => 'sitesetting'] , function () {
     Route::get('/iletisim', [PageController::class , 'contact'])->name('contact');
     Route::post('/iletisim/store', [AjaxController::class , 'contactStore'])->name('contactStore');
     Route::get('/urunler', [PageController::class , 'products'])->name('products');
-    Route::get('/urun/detay', [PageController::class , 'productDetail'])->name('productDetail');
+    Route::get('/urun/{slug}', [PageController::class , 'productDetail'])->name('productDetail');
     Route::get('/sepet', [PageController::class , 'cart'])->name('cart');
 
 });

@@ -23,7 +23,7 @@ class ProductSeeder extends Seeder
             'piece'=> 2,
             'short_text'=> 'KısaBilgi',
             'status'=> '1',
-            'content' => 'very good',
+            'content' => 'Urun Aciklamasi',
         ]);
         Product::create([
             'name'  => 'Urun 2',
@@ -35,7 +35,7 @@ class ProductSeeder extends Seeder
             'piece'=> 4,
             'short_text'=> 'KısaBilgi',
             'status'=> '1',
-            'content' => 'very good',
+            'content' => 'Urun Aciklamasi',
         ]);
     }
 }

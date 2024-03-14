@@ -18,7 +18,7 @@ class PageController extends Controller
     }
     public function products()
     {
-        $products = Product::where('status' , '1')->get();
+        $products = Product::where('status' , '1')->paginate(1);
         return view("frontend.pages.products" , compact('products'));
     }
     public function productsOnSale()
@@ -38,9 +38,10 @@ class PageController extends Controller
     {
         return view("frontend.pages.contact");
     }
-    public function productDetail()
+    public function productDetail($slug)
     {
-        return view("frontend.pages.product");
+        $product = Product::where('slug' , $slug)->first();
+        return view("frontend.pages.product" , compact('product'));
     }
 
     /**
