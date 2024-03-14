@@ -14,7 +14,7 @@ class CategorySeeder extends Seeder
     public function run(): void
     {
         $erkek = Category::create([
-            'image'=> null,
+            'image'=> 'images/men.jpg',
             'thumbnail'=> null,
             'cat_ust'=> null,
             'name'=> 'Erkek',
@@ -38,7 +38,7 @@ class CategorySeeder extends Seeder
             'status'=>'1',
         ]);
         $kadin = Category::create([
-            'image'=> null,
+            'image'=> 'images/women.jpg',
             'thumbnail'=> null,
             'cat_ust'=> null,
             'name'=> 'Kadın',
@@ -62,7 +62,7 @@ class CategorySeeder extends Seeder
             'status'=>'1',
         ]);
         $cocuk = Category::create([
-            'image'=> null,
+            'image'=> 'images/children.jpg',
             'thumbnail'=> null,
             'cat_ust'=> null,
             'name'=> 'Çocuk',
