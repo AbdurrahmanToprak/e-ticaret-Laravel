@@ -17,8 +17,9 @@ class PageController extends Controller
     {
         //
     }
-    public function products(Request $request)
+    public function products(Request $request , $slug=null)
     {
+        $category = request()->segment(1) ?? null;
         $size = $request->size ?? null;
 
         $color = $request->color ?? null;
@@ -43,15 +44,21 @@ class PageController extends Controller
                 }
                 return $q;
             })
-            ->with('category:id,name,slug');
+            ->with('category:id,name,slug')
+            ->whereHas('category', function ($q) use ($category,$slug){
+                if(!empty($slug)){
+                    $q->where('slug' , $slug);
+                }
+                return $q;
+            });
             $minprice = $products->min('price');
             $maxprice = $products->max('price');
             $sizelists = Product::where('status' , '1')->groupBy('size')->pluck('size')->toArray();
             $colors = Product::where('status' , '1')->groupBy('color')->pluck('color')->toArray();
             $products = $products ->orderBy($order,$short)->paginate(20);
 
-        $categories = Category::where('status','1')->where('cat_ust', null)->withCount('items')->get();
-        return view("frontend.pages.products" , compact('products', 'categories','minprice' ,'maxprice','sizelists', 'colors'));
+
+        return view("frontend.pages.products" , compact('products', 'minprice' ,'maxprice','sizelists', 'colors'));
     }
     public function productsOnSale()
     {

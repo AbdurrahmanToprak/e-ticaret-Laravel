@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Route;
 Route::group(['middleware' => 'sitesetting'] , function () {
 
     Route::get('/', [PageHomeController::class , 'index'])->name('home');
+    Route::get('/urunler', [PageController::class , 'products'])->name('products');
     Route::get('/erkek/{slug?}', [PageController::class , 'products'])->name('erkekurunler');
     Route::get('/kadin/{slug?}', [PageController::class , 'products'])->name('kadinurunler');
     Route::get('/cocuk/{slug?}', [PageController::class , 'products'])->name('cocukurunler');
@@ -26,7 +27,6 @@ Route::group(['middleware' => 'sitesetting'] , function () {
     Route::get('/hakkimizda', [PageController::class , 'about'])->name('about');
     Route::get('/iletisim', [PageController::class , 'contact'])->name('contact');
     Route::post('/iletisim/store', [AjaxController::class , 'contactStore'])->name('contactStore');
-    Route::get('/urunler', [PageController::class , 'products'])->name('products');
     Route::get('/urun/{slug}', [PageController::class , 'productDetail'])->name('productDetail');
     Route::get('/sepet', [PageController::class , 'cart'])->name('cart');
 
