@@ -19,9 +19,9 @@ use Illuminate\Support\Facades\Route;
 Route::group(['middleware' => 'sitesetting'] , function () {
 
     Route::get('/', [PageHomeController::class , 'index'])->name('home');
-    Route::get('/erkek-urunleri', [PageController::class , 'products'])->name('erkekurunler');
-    Route::get('/kadin-urunleri', [PageController::class , 'products'])->name('kadinurunler');
-    Route::get('/cocuk-urunleri', [PageController::class , 'products'])->name('cocukurunler');
+    Route::get('/erkek/{slug?}', [PageController::class , 'products'])->name('erkekurunler');
+    Route::get('/kadin/{slug?}', [PageController::class , 'products'])->name('kadinurunler');
+    Route::get('/cocuk/{slug?}', [PageController::class , 'products'])->name('cocukurunler');
     Route::get('/indirimdeki-urunler', [PageController::class , 'productsOnSale'])->name('productsOnSale');
     Route::get('/hakkimizda', [PageController::class , 'about'])->name('about');
     Route::get('/iletisim', [PageController::class , 'contact'])->name('contact');
