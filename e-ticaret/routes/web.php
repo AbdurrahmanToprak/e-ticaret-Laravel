@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\Frontend\PageController;
 use App\Http\Controllers\Frontend\PageHomeController;
 use Illuminate\Support\Facades\Route;
@@ -24,6 +25,7 @@ Route::group(['middleware' => 'sitesetting'] , function () {
     Route::get('/indirimdeki-urunler', [PageController::class , 'productsOnSale'])->name('productsOnSale');
     Route::get('/hakkimizda', [PageController::class , 'about'])->name('about');
     Route::get('/iletisim', [PageController::class , 'contact'])->name('contact');
+    Route::post('/iletisim/store', [AjaxController::class , 'contactStore'])->name('contactStore');
     Route::get('/urunler', [PageController::class , 'products'])->name('products');
     Route::get('/urun/detay', [PageController::class , 'productDetail'])->name('productDetail');
     Route::get('/sepet', [PageController::class , 'cart'])->name('cart');
