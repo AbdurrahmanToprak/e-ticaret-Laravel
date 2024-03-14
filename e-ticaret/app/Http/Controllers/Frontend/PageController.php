@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\About;
+use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -39,8 +40,15 @@ class PageController extends Controller
                 }
                 return $q;
             })
-            ->paginate(1);
-        return view("frontend.pages.products" , compact('products'));
+            ->with('category:id,name,slug');
+            $minprice = $products->min('price');
+            $maxprice = $products->max('price');
+            $sizelists = Product::where('status' , '1')->groupBy('size')->pluck('size')->toArray();
+            $colors = Product::where('status' , '1')->groupBy('color')->pluck('color')->toArray();
+            $products = $products ->paginate(1);
+
+        $categories = Category::where('status','1')->where('cat_ust', null)->withCount('items')->get();
+        return view("frontend.pages.products" , compact('products', 'categories','minprice' ,'maxprice','sizelists', 'colors'));
     }
     public function productsOnSale()
     {
