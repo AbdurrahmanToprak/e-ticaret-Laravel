@@ -6,7 +6,7 @@
                 <div class="card-body">
                     <h4 class="card-title">Basic Table</h4>
                     <p class="card-description">
-                        Add class <code>.table</code>
+                        <a href="{{route('panel.slider.create')}}" class="btn btn-primary">Yeni</a>
                     </p>
                     <div class="table-responsive">
                         <table class="table">
@@ -17,6 +17,7 @@
                                 <th>İçerik</th>
                                 <th>Link</th>
                                 <th>Status</th>
+                                <th>Edit</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -30,6 +31,13 @@
                                         <td>{{$slider->content}}</td>
                                         <td>{{$slider->link}}</td>
                                         <td><label class="badge badge-{{$slider->name == '1' ? 'success' : 'danger' }}">{{$slider->name == '1' ? 'Aktif' : 'Pasif' }}</label></td>
+                                        <td class="d-flex">
+                                            <a href="{{route('panel.slider.edit' , $slider->id)}}" class="btn btn-primary mr-2">Düzenle</a>
+                                            <form action="{{route('panel.slider.destroy' , $slider->id)}}" method="POST">
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger">Sil</button>
+                                            </form>
+                                        </td>
                                     </tr>
                                 @endforeach
                             @endif

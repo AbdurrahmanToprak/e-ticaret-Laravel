@@ -22,7 +22,7 @@ class SliderController extends Controller
      */
     public function create()
     {
-        //
+        return view('backend.pages.slider.create');
     }
 
     /**
@@ -46,7 +46,8 @@ class SliderController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $slider = Slider::where('id' , $id)->first();
+        return view('backend.pages.slider.edit' ,compact('slider'));
     }
 
     /**
