@@ -11,6 +11,15 @@
     <div class="site-section">
         <div class="container">
             <div class="row">
+                <div class="col-lg-12">
+                    @if(session()->get('success'))
+                        <div class="alert alert-success">
+                            {{session()->get('success')}}
+                        </div>
+                    @endif
+                </div>
+            </div>
+            <div class="row">
                 <div class="col-md-6">
                     <img src="{{asset('/')}}images/cloth_1.jpg" alt="Image" class="img-fluid">
                 </div>

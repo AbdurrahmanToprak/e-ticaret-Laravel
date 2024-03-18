@@ -10,9 +10,17 @@
 
     <div class="site-section">
         <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    @if(session()->get('success'))
+                        <div class="alert alert-success">
+                            {{session()->get('success')}}
+                        </div>
+                    @endif
+                </div>
+            </div>
             <div class="row mb-5">
-                <form class="col-md-12" method="post">
-                    <div class="site-blocks-table">
+                    <div class="col-lg-12 site-blocks-table">
                         <table class="table table-bordered">
                             <thead>
                             <tr>
@@ -26,7 +34,7 @@
                             </thead>
                             <tbody>
                             @if($cartItem)
-                            @foreach($cartItem as $cart)
+                            @foreach($cartItem as $key => $cart)
                                 <tr>
                                     <td class="product-thumbnail">
                                         <img src="{{asset($cart['image'])}}" alt="Image" class="img-fluid">
@@ -48,24 +56,27 @@
 
                                     </td>
                                     <td>{{$cart['price'] * $cart['piece']}} TL</td>
-                                    <td><a href="#" class="btn btn-primary btn-sm">X</a></td>
+
+                                    <td>
+                                        <form action="{{route('cart_remove')}}" method="POST">
+                                            @csrf
+                                            <input type="hidden" name="product_id" value="{{$key}}">
+                                            <button type="submit" class="btn btn-primary btn-sm">X</button>
+                                        </form>
+                                    </td>
                                 </tr>
                             @endforeach
                             @endif
                             </tbody>
                         </table>
                     </div>
-                </form>
             </div>
 
             <div class="row">
                 <div class="col-md-6">
                     <div class="row mb-5">
-                        <div class="col-md-6 mb-3 mb-md-0">
-                            <button class="btn btn-primary btn-sm btn-block">Sepeti Güncelle</button>
-                        </div>
                         <div class="col-md-6">
-                            <button class="btn btn-outline-primary btn-sm btn-block">Alışverişe Devam Et</button>
+                            <a href="{{route('products')}}" class="btn btn-outline-primary btn-sm btn-block">Alışverişe Devam Et</a>
                         </div>
                     </div>
                     <div class="row">

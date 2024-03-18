@@ -39,16 +39,23 @@ class CartController extends Controller
               'image' => $urun->image,
                 'name' => $urun->name,
                 'price' => $urun->price,
-                'piece' => $piece,
+                'piece' => $piece ?? 1,
                 'size' => $size,
             ];
         }
         session(['cart' => $cartItem]);
         return back()->withSuccess('Urun Sepete Eklendi.');
     }
-    public function remove(string $id)
+    public function remove(Request $request)
     {
-        //
+        $product_id = $request->product_id;
+        $cartItem = session('cart' , []);
+        if(array_key_exists($product_id,$cartItem)){
+            unset($cartItem[$product_id]);
+        }
+        session(['cart' => $cartItem]);
+        return back()->withSuccess('Basariyla sepetten cikarildi.');
+
     }
 
     public function store(Request $request)
