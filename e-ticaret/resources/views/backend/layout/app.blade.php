@@ -201,7 +201,10 @@
       @include('backend.inc.sidebar')
         <!-- partial -->
         <div class="main-panel">
-          @yield('content')
+            <div class="content-wrapper">
+                @yield('content')
+            </div>
+
             <!-- content-wrapper ends -->
             <!-- partial:partials/_footer.html -->
             @include('backend.inc.footer')
