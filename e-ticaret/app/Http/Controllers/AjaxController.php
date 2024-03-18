@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ContentFromRequest;
 use App\Models\Contact;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AjaxController extends Controller
 {
@@ -38,5 +39,11 @@ class AjaxController extends Controller
         Contact::create($newdata);
 
         return back()->with(['message' => 'Başarıyla kaydedildi.']);
+    }
+
+    public function logout()
+    {
+       Auth::logout();
+       return redirect()->route('home');
     }
 }
