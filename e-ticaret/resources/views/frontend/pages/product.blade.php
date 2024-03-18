@@ -15,21 +15,27 @@
                     <img src="{{asset('/')}}images/cloth_1.jpg" alt="Image" class="img-fluid">
                 </div>
                 <div class="col-md-6">
+                    <form action="{{route('cart_add')}}" method="POST">
+                        @csrf
+                        <input type="hidden" name="product_id" value="{{$product->id}}">
                     <h2 class="text-black">{{$product->name ?? ''}}</h2>
                     {!! $product->content !!}
                     <p><strong class="text-primary h4">{{number_format($product->price,2) ?? ''}}</strong></p>
                     <div class="mb-1 d-flex">
                         <label for="option-sm" class="d-flex mr-3 mb-3">
-                            <span class="d-inline-block mr-2" style="top:-2px; position: relative;"><input type="radio" id="option-sm" name="shop-sizes"></span> <span class="d-inline-block text-black">Small</span>
+                            <span class="d-inline-block mr-2" style="top:-2px; position: relative;"><input type="radio" id="option-sm" name="size" value="XS"></span> <span class="d-inline-block text-black">XS</span>
+                        </label>
+                        <label for="option-sm" class="d-flex mr-3 mb-3">
+                            <span class="d-inline-block mr-2" style="top:-2px; position: relative;"><input type="radio" id="option-sm" name="size" value="S"></span> <span class="d-inline-block text-black">S</span>
                         </label>
                         <label for="option-md" class="d-flex mr-3 mb-3">
-                            <span class="d-inline-block mr-2" style="top:-2px; position: relative;"><input type="radio" id="option-md" name="shop-sizes"></span> <span class="d-inline-block text-black">Medium</span>
+                            <span class="d-inline-block mr-2" style="top:-2px; position: relative;"><input type="radio" id="option-md" name="size" value="M"></span> <span class="d-inline-block text-black">M</span>
                         </label>
                         <label for="option-lg" class="d-flex mr-3 mb-3">
-                            <span class="d-inline-block mr-2" style="top:-2px; position: relative;"><input type="radio" id="option-lg" name="shop-sizes"></span> <span class="d-inline-block text-black">Large</span>
+                            <span class="d-inline-block mr-2" style="top:-2px; position: relative;"><input type="radio" id="option-lg" name="size" value="L"></span> <span class="d-inline-block text-black">L</span>
                         </label>
                         <label for="option-xl" class="d-flex mr-3 mb-3">
-                            <span class="d-inline-block mr-2" style="top:-2px; position: relative;"><input type="radio" id="option-xl" name="shop-sizes"></span> <span class="d-inline-block text-black"> Extra Large</span>
+                            <span class="d-inline-block mr-2" style="top:-2px; position: relative;"><input type="radio" id="option-xl" name="size" value="XL"></span> <span class="d-inline-block text-black">XL</span>
                         </label>
                     </div>
                     <div class="mb-5">
@@ -37,15 +43,15 @@
                             <div class="input-group-prepend">
                                 <button class="btn btn-outline-primary js-btn-minus" type="button">&minus;</button>
                             </div>
-                            <input type="text" class="form-control text-center" value="1" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
+                            <input type="text" class="form-control text-center" name="piece" value="1" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
                             <div class="input-group-append">
                                 <button class="btn btn-outline-primary js-btn-plus" type="button">&plus;</button>
                             </div>
                         </div>
 
                     </div>
-                    <p><a href="cart.html" class="buy-now btn btn-sm btn-primary">Sepete Ekle</a></p>
-
+                    <p><button type="submit" class="buy-now btn btn-sm btn-primary">Sepete Ekle</button></p>
+                    </form>
                 </div>
             </div>
         </div>

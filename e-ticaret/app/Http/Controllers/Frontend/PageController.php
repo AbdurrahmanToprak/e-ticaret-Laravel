@@ -29,7 +29,7 @@ class PageController extends Controller
         $endprice = $request->end_price ?? null;
 
         $order = $request->order ?? 'id';
-        $short = $request->short ?? 'desc';
+        $sort = $request->sort ?? 'desc';
 
         $products = Product::where('status' , '1')
             ->where(function ($q) use($size,$color,$startprice,$endprice){
@@ -55,7 +55,7 @@ class PageController extends Controller
             $maxprice = $products->max('price');
             $sizelists = Product::where('status' , '1')->groupBy('size')->pluck('size')->toArray();
             $colors = Product::where('status' , '1')->groupBy('color')->pluck('color')->toArray();
-            $products = $products ->orderBy($order,$short)->paginate(20);
+            $products = $products ->orderBy($order,$sort)->paginate(21);
 
 
         return view("frontend.pages.products" , compact('products', 'minprice' ,'maxprice','sizelists', 'colors'));
@@ -64,10 +64,7 @@ class PageController extends Controller
     {
         return view("frontend.pages.products");
     }
-    public function cart()
-    {
-        return view("frontend.pages.cart");
-    }
+
     public function about()
     {
         $about = About::where('id', 1)->first();
