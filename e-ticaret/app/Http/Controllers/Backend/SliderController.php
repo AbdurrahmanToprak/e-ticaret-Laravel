@@ -24,7 +24,7 @@ class SliderController extends Controller
      */
     public function create()
     {
-        return view('backend.pages.slider.create');
+        return view('backend.pages.slider.edit');
     }
 
     /**
@@ -45,7 +45,7 @@ class SliderController extends Controller
             'status' => $request->status,
             'image' => $dosyaadi,
         ]);
-        return back()->withSuccess('Başarıyla oluşturuldu.');
+        return redirect()->route('panel.slider')->withSuccess('Başarıyla oluşturuldu.');
     }
 
     /**
@@ -70,7 +70,31 @@ class SliderController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $slider = Slider::findOrFail($id);
+
+        if($request->hasFile('image')){
+            $resim = $request->file('image');
+            $dosyaadi  = time().'-'. Str::slug($request->name).'.'.$resim->getClientOriginalExtension();
+            $resim->move(public_path('img/slider') , $dosyaadi);
+
+            if ($slider->image) {
+                $eskiDosyaYolu = public_path('img/slider') . '/' . $slider->image;
+                if (file_exists($eskiDosyaYolu)) {
+                    unlink($eskiDosyaYolu);
+                }
+            }
+        } else {
+
+            $dosyaadi = $slider->image;
+        }
+        Slider::where('id',$id)->update([
+            'name' => $request->name,
+            'content' => $request->content,
+            'link' => $request->link,
+            'status' => $request->status,
+            'image' => $dosyaadi,
+        ]);
+        return redirect()->route('panel.slider')->withSuccess('Başarıyla Güncellendi.');
     }
 
     /**
@@ -78,6 +102,15 @@ class SliderController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $slider = Slider::where('id' , $id)->firstOrFail();
+
+        if(file_exists($slider->image)){
+            if(!empty($slider->image)){
+                unlink('img/slider/'.$slider->image);
+            }
+        }
+        $slider->delete();
+        return redirect()->route('panel.slider')->withSuccess('Başarıyla Silindi.');
+
     }
 }
