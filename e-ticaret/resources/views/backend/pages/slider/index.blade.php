@@ -38,7 +38,7 @@
                                         <td>{{$slider->name}}</td>
                                         <td>{{$slider->content}}</td>
                                         <td>{{$slider->link}}</td>
-                                        <td><label class="badge badge-{{$slider->name == '1' ? 'success' : 'danger' }}">{{$slider->name == '1' ? 'Aktif' : 'Pasif' }}</label></td>
+                                        <td><label class="badge badge-{{$slider->status == '1' ? 'success' : 'danger' }}">{{$slider->status == '1' ? 'Aktif' : 'Pasif' }}</label></td>
                                         <td class="d-flex">
                                             <a href="{{route('panel.slider.edit' , $slider->id)}}" class="btn btn-primary mr-2">Düzenle</a>
                                             <form action="{{route('panel.slider.destroy' , $slider->id)}}" method="POST">
