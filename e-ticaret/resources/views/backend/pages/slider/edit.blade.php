@@ -4,7 +4,7 @@
         <div class="col-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">Basic form elements</h4>
+                    <h4 class="card-title">Slider</h4>
                     <div class="col-lg-12">
                         @if(count($errors))
                             @foreach($errors->all() as $error)
