@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\SliderRequest;
 use App\Models\Slider;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class SliderController extends Controller
 {
@@ -28,9 +30,22 @@ class SliderController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(SliderRequest $request)
     {
-        //
+        if($request->hasFile('image')){
+            $resim = $request->file('image');
+            $dosyaadi  = time().'-'. Str::slug($request->name).'.'.$resim->getClientOriginalExtension();
+            $resim->move(public_path('img/slider') , $dosyaadi);
+
+        }
+        Slider::create([
+           'name' => $request->name,
+           'content' => $request->content,
+           'link' => $request->link,
+            'status' => $request->status,
+            'image' => $dosyaadi,
+        ]);
+        return back()->withSuccess('Başarıyla oluşturuldu.');
     }
 
     /**
