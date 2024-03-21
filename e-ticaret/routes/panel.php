@@ -17,6 +17,7 @@ Route::group(['middleware' => ['panelsetting', 'auth'] , 'prefix' => 'panel', 'a
     Route::post('/slider/kaydet', [SliderController::class , 'store'])->name('slider.store');
     Route::put('/slider/{id}/guncelle', [SliderController::class , 'update'])->name('slider.update');
     Route::delete('/slider/{id}/sil', [SliderController::class , 'destroy'])->name('slider.destroy');
+    Route::post('/slider-status/update', [SliderController::class , 'status'])->name('slider.status');
 
 
 });

@@ -17,9 +17,15 @@
     <link rel="stylesheet" type="text/css" href="{{asset('backend')}}/js/select.dataTables.min.css">
     <!-- End plugin css for this page -->
     <!-- inject:css -->
+
     <link rel="stylesheet" href="{{asset('backend')}}/css/vertical-layout-light/style.css">
+    <link href="{{asset('backend/css/bootstrap-toggle.min.css')}}" rel="stylesheet">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css"/>
+
     <!-- endinject -->
     <link rel="shortcut icon" href="{{asset('backend')}}/images/favicon.png" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 <body>
 <div class="container-scroller">
@@ -215,7 +221,7 @@
     <!-- page-body-wrapper ends -->
 </div>
 <!-- container-scroller -->
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <!-- plugins:js -->
 <script src="{{asset('backend')}}/vendors/js/vendor.bundle.base.js"></script>
 <!-- endinject -->
@@ -238,7 +244,11 @@
 <script src="{{asset('backend')}}/js/Chart.roundedBarCharts.js"></script>
 <script src="{{asset('backend')}}/js/file-upload.js"></script>
 
+<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+
+<script src="{{asset('backend/js/bootstrap-toggle.min.js')}}"></script>
 <!-- End custom js for this page-->
+@yield('customjs')
 </body>
 
 </html>

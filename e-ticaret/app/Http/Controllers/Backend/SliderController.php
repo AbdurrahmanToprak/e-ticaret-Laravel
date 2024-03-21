@@ -113,4 +113,13 @@ class SliderController extends Controller
         return redirect()->route('panel.slider')->withSuccess('Başarıyla Silindi.');
 
     }
+
+    public function status(Request $request)
+    {
+        $update = $request->status;
+        $updateCheck = $update == "false" ? '0' : '1';
+        Slider::where('id' , $request->id)->update(['status' => $updateCheck]);
+        return response(['error' => false , 'status' =>$update]);
+
+    }
 }

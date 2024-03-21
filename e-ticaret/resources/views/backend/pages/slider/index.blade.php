@@ -38,7 +38,13 @@
                                         <td>{{$slider->name}}</td>
                                         <td>{{$slider->content}}</td>
                                         <td>{{$slider->link}}</td>
-                                        <td><label class="badge badge-{{$slider->status == '1' ? 'success' : 'danger' }}">{{$slider->status == '1' ? 'Aktif' : 'Pasif' }}</label></td>
+                                        <td>
+                                            <div class="checkbox" item-id="{{$slider->id}}">
+                                                <label>
+                                                    <input type="checkbox"  class="status" data-on="Aktif" data-off="Pasif" data-onstyle="success"  data-offstyle="danger" {{$slider->status == '1' ? 'checked' : '' }} data-toggle="toggle">
+                                                </label>
+                                            </div>
+                                        </td>
                                         <td class="d-flex">
                                             <a href="{{route('panel.slider.edit' , $slider->id)}}" class="btn btn-primary mr-2">Düzenle</a>
                                             <form action="{{route('panel.slider.destroy' , $slider->id)}}" method="POST">
@@ -60,4 +66,32 @@
 
 
     </div>
+@endsection
+@section('customjs')
+    <script>
+       $(document).on('change','.status',function (e){
+        id = $(this).closest('.checkbox').attr('item-id');
+        status =  $(this).prop('checked');
+
+        $.ajax({
+            headers:{
+                'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
+            },
+            type: 'POST',
+            url:'{{route('panel.slider.status')}}',
+            data:{
+                id:id,
+                status:status
+            },
+            success: function (response){
+                if(response.status == "true"){
+                    alertify.success("Durum aktif edildi.");
+                }
+                else{
+                    alertify.error("Durum pasif edildi.");
+                }
+            }
+        });
+       })
+    </script>
 @endsection
