@@ -104,10 +104,7 @@ class SliderController extends Controller
     {
         $slider = Slider::where('id', $request->id)->firstOrFail();
 
-        if (!empty($slider->image) && file_exists('img/slider/' . $slider->image)) {
-            unlink('img/slider/' . $slider->image);
-        }
-
+        dosyayiSil('img/slider/' . $slider->image);
         $slider->delete();
 
         return response(['error' => false, 'message' => 'Başarıyla silindi.']);
