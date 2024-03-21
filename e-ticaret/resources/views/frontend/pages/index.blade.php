@@ -1,6 +1,6 @@
 @extends('frontend.layout.app')
 @section('content')
-    <div class="site-blocks-cover" style="background-image: url({{asset($slider->image)}});" data-aos="fade">
+    <div class="site-blocks-cover" style="background-image: url({{asset('img/slider/'.$slider->image ?? '')}});" data-aos="fade">
         <div class="container">
             <div class="row align-items-start align-items-md-center justify-content-end">
                 <div class="col-md-5 text-center text-md-left pt-5 pt-md-0">
@@ -8,7 +8,7 @@
                     <div class="intro-text text-center text-md-left">
                         <p class="mb-4">{{$slider->content}}</p>
                         <p>
-                            <a href="{{url('/').'/'.$slider->link}}" class="btn btn-sm btn-primary">Ürünlerimiz</a>
+                            <a href="{{$slider->link ?? ''}}" class="btn btn-sm btn-primary">Ürünlerimiz</a>
                         </p>
                     </div>
                 </div>
