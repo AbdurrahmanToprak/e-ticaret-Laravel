@@ -23,7 +23,6 @@
                                 <th>Resim</th>
                                 <th>Başlık</th>
                                 <th>İçerik</th>
-                                <th>Link</th>
                                 <th>Status</th>
                                 <th>Edit</th>
                             </tr>
@@ -35,8 +34,8 @@
                                         <td class="py-1">
                                             <img src="{{asset('img/category/'.$category->image)}}" alt="image"/>
                                         </td>
-                                        <td>{{$category->name}}</td>
                                         <td>{{$category->category->name ?? ''}}</td>
+                                        <td>{{$category->name}}</td>
 
                                         <td>
                                             <div class="checkbox" >
