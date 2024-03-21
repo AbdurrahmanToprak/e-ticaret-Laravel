@@ -1,5 +1,6 @@
 @extends('frontend.layout.app')
 @section('content')
+    @if($slider)
     <div class="site-blocks-cover" style="background-image: url({{asset('img/slider/'.$slider->image ?? '')}});" data-aos="fade">
         <div class="container">
             <div class="row align-items-start align-items-md-center justify-content-end">
@@ -15,7 +16,7 @@
             </div>
         </div>
     </div>
-
+    @endif
     <div class="site-section site-section-sm site-blocks-1 border-0" data-aos="fade">
         <div class="container">
             <div class="row">

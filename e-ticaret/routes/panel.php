@@ -1,6 +1,7 @@
 <?php
 
 
+use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\SliderController;
 use App\Http\Controllers\Frontend\PageHomeController;
@@ -18,6 +19,10 @@ Route::group(['middleware' => ['panelsetting', 'auth'] , 'prefix' => 'panel', 'a
     Route::put('/slider/{id}/guncelle', [SliderController::class , 'update'])->name('slider.update');
     Route::delete('/slider/sil', [SliderController::class , 'destroy'])->name('slider.destroy');
     Route::post('/slider-status/update', [SliderController::class , 'status'])->name('slider.status');
+
+    Route::resource('/category', CategoryController::class )->except('destroy');
+    Route::delete('/category/sil', [CategoryController::class , 'destroy'])->name('category.destroy');
+    Route::post('/category-status/update', [CategoryController::class , 'status'])->name('category.status');
 
 
 });
