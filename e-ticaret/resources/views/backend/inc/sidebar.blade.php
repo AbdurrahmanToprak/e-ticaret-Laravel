@@ -38,5 +38,11 @@
                 <span class="menu-title">Hakkımızda</span>
             </a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{route('panel.contact')}}">
+                <i class="icon-grid menu-icon"></i>
+                <span class="menu-title">Gelen Kutusu</span>
+            </a>
+        </li>
     </ul>
 </nav>
