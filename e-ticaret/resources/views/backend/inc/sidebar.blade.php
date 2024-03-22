@@ -32,6 +32,11 @@
                 </ul>
             </div>
         </li>
-
+        <li class="nav-item">
+            <a class="nav-link" href="{{route('panel.about')}}">
+                <i class="icon-grid menu-icon"></i>
+                <span class="menu-title">Hakkımızda</span>
+            </a>
+        </li>
     </ul>
 </nav>

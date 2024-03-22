@@ -4,7 +4,7 @@
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\SliderController;
-use App\Http\Controllers\Frontend\PageHomeController;
+use App\Http\Controllers\Backend\AboutController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -23,6 +23,9 @@ Route::group(['middleware' => ['panelsetting', 'auth'] , 'prefix' => 'panel', 'a
     Route::resource('/category', CategoryController::class )->except('destroy');
     Route::delete('/category/sil', [CategoryController::class , 'destroy'])->name('category.destroy');
     Route::post('/category-status/update', [CategoryController::class , 'status'])->name('category.status');
+
+    Route::get('/about', [AboutController::class , 'index'])->name('about');
+    Route::post('/about/update', [AboutController::class , 'update'])->name('about.update');
 
 
 });
