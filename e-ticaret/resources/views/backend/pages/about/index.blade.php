@@ -61,12 +61,12 @@
                         </div>
                         <div class="form-group">
                             <label for="text_1_icon">Resim 1</label>
-                            <input type="text" class="form-control" id="text_1_icon" name="text_1_icon" value="{{$about->text_icon_1 ?? ''}}" placeholder="Icon 1">
+                            <input type="text" class="form-control" id="text_1_icon" name="text_1_icon" value="{{$about->text_1_icon ?? ''}}" placeholder="Icon 1">
                         </div>
 
                         <div class="form-group">
                             <label for="text_1">Metin 1</label>
-                            <input type="text" class="form-control" id="text_1" name="text_icon_1" value="{{$about->text_1 ?? ''}}" placeholder="Text 1">
+                            <input type="text" class="form-control" id="text_1" name="text_1" value="{{$about->text_1 ?? ''}}" placeholder="Text 1">
                         </div>
 
                         <div class="form-group">

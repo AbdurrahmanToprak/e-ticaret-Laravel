@@ -15,8 +15,13 @@
                 <h2 class="h3 mb-3 text-black">İletişim</h2>
             </div>
             <div class="col-md-7">
-                @if(session()->has('message'))
-                    <div class="alert alert-success">{{session()->get('message')}}</div>
+                @if(session()->get('message'))
+                    <div class="alert alert-success">
+                        {{session()->get('message')}}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
                 @endif
 
                     @if(count($errors))

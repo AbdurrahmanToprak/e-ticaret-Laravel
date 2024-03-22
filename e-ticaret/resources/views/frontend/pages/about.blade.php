@@ -3,7 +3,7 @@
 <div class="bg-light py-3">
     <div class="container">
         <div class="row">
-            <div class="col-md-12 mb-0"><a href="index.html">Home</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">About</strong></div>
+            <div class="col-md-12 mb-0"><a href="{{route('home')}}">Ana Sayfa</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">Hakkımızda</strong></div>
         </div>
     </div>
 </div>
@@ -14,7 +14,7 @@
             <div class="col-md-6">
                 <div class="block-16">
                     <figure>
-                        <img src="{{$about->image ?? 'images/blog_1.jpg'}}" alt="Image placeholder" class="img-fluid rounded">
+                        <img src="{{'img/about/'.$about->image ?? 'images/blog_1.jpg'}}" alt="Image placeholder" class="img-fluid rounded">
                         <a href="https://vimeo.com/channels/staffpicks/93951774" class="play-button popup-vimeo"><span class="ion-md-play"></span></a>
 
                     </figure>
