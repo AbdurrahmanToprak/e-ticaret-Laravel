@@ -20,9 +20,9 @@ class PageController extends Controller
     public function products(Request $request , $slug=null)
     {
         $category = request()->segment(1) ?? null;
-        $sizes = $request->size ?? null;
+        $sizes = !empty($request->size) ? explode(',',$request->size ) : null;
 
-        $colors = $request->color ?? null;
+        $colors = !empty($request->color) ? explode(',',$request->color ) : null;
 
         $startprice = $request->min ?? null;
 
@@ -40,7 +40,9 @@ class PageController extends Controller
                     $q->whereIn('color' , $colors);
                 }
                 if(!empty($startprice) && $endprice){
-                    $q->whereBetween('price' , [$startprice,$endprice]);
+                    //$q->whereBetween('price' , [$startprice,$endprice]);
+                    $q->where('price' ,'>=', $startprice);
+                    $q->where('price' ,'<=', $endprice);
                 }
                 return $q;
             })

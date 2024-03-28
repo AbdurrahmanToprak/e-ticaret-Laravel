@@ -3,7 +3,7 @@
     <div class="bg-light py-3">
         <div class="container">
             <div class="row">
-                <div class="col-md-12 mb-0"><a href="index.html">Home</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">Shop</strong></div>
+                <div class="col-md-12 mb-0"><a href="{{route('home')}}">Home</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">Shop</strong></div>
             </div>
         </div>
     </div>
@@ -22,15 +22,17 @@
 
                                 </div>
                                 <div class="btn-group">
-                                    <button type="button" class="btn btn-secondary btn-sm dropdown-toggle" id="dropdownMenuReference" data-toggle="dropdown">Sırala</button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuReference">
-                                        <a class="dropdown-item" href="#" data-order="a_z_order" >A dan Z ye Sırala</a>
-                                        <a class="dropdown-item" href="#" data-order="z_a_order" >Z den A ya Sırala</a>
-                                        <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="#" data-order="price_min_order">Düşük Fiyata Göre Sırala</a>
-                                        <a class="dropdown-item" href="#" data-order="price_max_order">Yüksek Fiyata Göre Sırala</a>
+
+                                        <select class="form-control" id="orderList">
+                                            <option class="dropdown-item" value="" >Sırala</option>
+                                            <option class="dropdown-item" value="id-asc" >A dan Z ye Sırala</option>
+                                            <option class="dropdown-item"  value="id-desc" >Z den A ya Sırala</option>
+                                            <option class="dropdown-item"  value="price-asc" >Düşük Fiyata Göre Sırala</option>
+                                            <option class="dropdown-item"  value="price-desc" >Yüksek Fiyata Göre Sırala</option>
+                                        </select>
                                     </div>
-                                </div>
+
+
                             </div>
                         </div>
                     </div>
@@ -106,6 +108,7 @@
                             <h3 class="mb-3 h6 text-uppercase text-black d-block">Fiyat Filtresi</h3>
                             <div id="slider-range" class="border-primary"></div>
                             <input type="text" name="text" id="amount" class="form-control border-0 pl-0 bg-white" disabled="" />
+                            <input type="text" name="priceBetween" id="priceBetween" class="form-control" />
                         </div>
 
                         <div class="mb-4">
@@ -113,7 +116,7 @@
                             @if(!empty($sizelists))
                                 @foreach($sizelists as $key => $size)
                                     <label for="size{{$key}}" class="d-flex">
-                                        <input type="checkbox" id="size{{$key}}" {{isset(request()->size) && in_array($size,request()->size) ? 'checked' : ''}} class="mr-2 mt-1"> <span class="text-black">{{$size}}</span>
+                                        <input type="checkbox" id="size{{$key}}" value="{{$size}}" {{isset(request()->size) && in_array($size,explode(',',request()->size)) ? 'checked' : ''}} class="mr-2 mt-1 sizeList"> <span class="text-black">{{$size}}</span>
                                     </label>
                                 @endforeach
                             @endif
@@ -124,14 +127,14 @@
                             @if(!empty($colors))
                                 @foreach($colors as $key => $color)
                                     <label for="color{{$key}}" class="d-flex">
-                                        <input type="checkbox" id="color{{$key}}" {{isset(request()->color) && in_array($color,request()->color) ? 'checked' : ''}} class="mr-2 mt-1"> <span class="text-black">{{$color}}</span>
+                                        <input type="checkbox" id="color{{$key}}"  value="{{$color}}" {{isset(request()->color) && in_array($color,explode(',',request()->color)) ? 'checked' : ''}} class="mr-2 mt-1 colorList"> <span class="text-black">{{$color}}</span>
                                     </label>
                                 @endforeach
                             @endif
                         </div>
 
                         <div class="mb-4">
-                            <button class="btn btn-block btn-primary">Filtrele</button>
+                            <button class="btn btn-block btn-primary filterBtn">Filtrele</button>
                         </div>
 
                     </div>
@@ -179,6 +182,50 @@
         var maxprice = "{{$maxprice}}";
         var defaultminprice = "{{request()->min ?? 0}}";
         var defaultmaxprice = "{{request()->max ?? $maxprice}}";
+
+        var url = new URL(window.location.href);
+
+        $(document).on('click' ,'.filterBtn', function (e){
+           filtrele();
+        });
+        function filtrele() {
+            let colorList = $(".colorList:checked").map((_,chk) => chk.value).get();
+            let sizeList = $(".sizeList:checked").map((_,chk) => chk.value).get();
+            if(colorList.length >0){
+                url.searchParams.set("color" , colorList.join(","))
+            }else{
+                url.searchParams.delete('color');
+            }
+            if(sizeList.length >0){
+                url.searchParams.set("size" , sizeList.join(","))
+            }else{
+                url.searchParams.delete('size');
+            }
+
+            var price = $('#priceBetween').val().split('-');
+            url.searchParams.set("min" , price[0])
+            url.searchParams.set("max" , price[1])
+
+            newUrl = url.href;
+            window.history.pushState({} , '' , newUrl);
+            location.reload();
+        }
+
+        $(document).on('change' ,'#orderList', function (e) {
+
+            var order = $(this).val();
+
+            if(order != ''){
+                orderby = order.split('-');
+
+                url.searchParams.set("order" , orderby[0])
+                url.searchParams.set("sort" , orderby[1])
+            }else{
+                url.searchParams.delete('order');
+                url.searchParams.delete('sort');
+            }
+            filtrele();
+        });
     </script>
 
 @endsection
