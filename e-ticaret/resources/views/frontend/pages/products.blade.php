@@ -111,9 +111,9 @@
                         <div class="mb-4">
                             <h3 class="mb-3 h6 text-uppercase text-black d-block">Beden</h3>
                             @if(!empty($sizelists))
-                                @foreach($sizelists as $sizelist)
-                                    <label for="s_sm" class="d-flex">
-                                        <input type="checkbox" id="s_sm" class="mr-2 mt-1"> <span class="text-black">{{$sizelist}}</span>
+                                @foreach($sizelists as $key => $size)
+                                    <label for="size{{$key}}" class="d-flex">
+                                        <input type="checkbox" id="size{{$key}}" {{isset(request()->size) && in_array($size,request()->size) ? 'checked' : ''}} class="mr-2 mt-1"> <span class="text-black">{{$size}}</span>
                                     </label>
                                 @endforeach
                             @endif
@@ -122,12 +122,16 @@
                         <div class="mb-4">
                             <h3 class="mb-3 h6 text-uppercase text-black d-block">Renk</h3>
                             @if(!empty($colors))
-                                @foreach($colors as $color)
-                                    <a href="#" class="d-flex color-item align-items-center" >
-                                        <span class="bg-danger color d-inline-block rounded-circle mr-2"></span> <span class="text-black">{{$color}}</span>
-                                    </a>
+                                @foreach($colors as $key => $color)
+                                    <label for="color{{$key}}" class="d-flex">
+                                        <input type="checkbox" id="color{{$key}}" {{isset(request()->color) && in_array($color,request()->color) ? 'checked' : ''}} class="mr-2 mt-1"> <span class="text-black">{{$color}}</span>
+                                    </label>
                                 @endforeach
                             @endif
+                        </div>
+
+                        <div class="mb-4">
+                            <button class="btn btn-block btn-primary">Filtrele</button>
                         </div>
 
                     </div>
@@ -171,8 +175,10 @@
 @endsection
 @section('customjs')
     <script>
-        var minprice = "{{$minprice}}";
+
         var maxprice = "{{$maxprice}}";
+        var defaultminprice = "{{request()->min ?? 0}}";
+        var defaultmaxprice = "{{request()->max ?? $maxprice}}";
     </script>
 
 @endsection

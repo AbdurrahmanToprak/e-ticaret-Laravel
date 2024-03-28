@@ -20,24 +20,24 @@ class PageController extends Controller
     public function products(Request $request , $slug=null)
     {
         $category = request()->segment(1) ?? null;
-        $size = $request->size ?? null;
+        $sizes = $request->size ?? null;
 
-        $color = $request->color ?? null;
+        $colors = $request->color ?? null;
 
-        $startprice = $request->start_price ?? null;
+        $startprice = $request->min ?? null;
 
-        $endprice = $request->end_price ?? null;
+        $endprice = $request->max ?? null;
 
         $order = $request->order ?? 'id';
         $sort = $request->sort ?? 'desc';
 
         $products = Product::where('status' , '1')
-            ->where(function ($q) use($size,$color,$startprice,$endprice){
-                if(!empty($size)){
-                    $q->where('size' , $size);
+            ->where(function ($q) use($sizes,$colors,$startprice,$endprice){
+                if(!empty($sizes)){
+                    $q->whereIn('size' , $sizes);
                 }
-                if(!empty($color)){
-                    $q->where('color' , $color);
+                if(!empty($colors)){
+                    $q->whereIn('color' , $colors);
                 }
                 if(!empty($startprice) && $endprice){
                     $q->whereBetween('price' , [$startprice,$endprice]);
@@ -51,14 +51,14 @@ class PageController extends Controller
                 }
                 return $q;
             });
-            $minprice = $products->min('price');
-            $maxprice = $products->max('price');
+            $maxprice = Product::max('price');
+
             $sizelists = Product::where('status' , '1')->groupBy('size')->pluck('size')->toArray();
             $colors = Product::where('status' , '1')->groupBy('color')->pluck('color')->toArray();
             $products = $products ->orderBy($order,$sort)->paginate(21);
 
 
-        return view("frontend.pages.products" , compact('products', 'minprice' ,'maxprice','sizelists', 'colors'));
+        return view("frontend.pages.products" , compact('products','maxprice','sizelists', 'colors'));
     }
     public function productsOnSale()
     {
