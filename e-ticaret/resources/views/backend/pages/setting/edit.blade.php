@@ -56,7 +56,7 @@
                         </div>
                         <div class="form-group">
 
-                            <select class="form-control" id="set_type" name="set_type">
+                            <select class="form-control " id="setTypeSelect" name="set_type">
                                 <option value="">Tür Seçiniz </option>
                                 <option value="ckeditor" {{isset($setting->set_type) && $setting->set_type == 'ckeditor' ? 'selected' : ''}}>Ckeditor</option>
                                 <option value="textarea" {{isset($setting->set_type) && $setting->set_type == 'textarea' ? 'selected' : ''}}>Textarea</option>
@@ -120,8 +120,7 @@
     <script src="https://cdn.ckeditor.com/ckeditor5/41.2.1/classic/ckeditor.js"></script>
     <script src="https://cdn.ckeditor.com/ckeditor5/41.2.1/classic/translations/tr.js"></script>
     <script>
-        ClassicEditor
-            .create( document.querySelector( '#editor' ) ,{
+        const option = {
                 language:'tr',
                 heading: {
                     options: [
@@ -134,10 +133,70 @@
                         { model: 'heading6', view: 'h6', title: 'Heading 6', class: 'ck-heading_heading6' }
                     ]
                 },
-            })
-            .catch( error => {
-                console.error( error );
-            } );
+            };
+
+            function ckeditor(){
+                ClassicEditor
+                    .create( document.querySelector( '#editor' ) , option)
+                    .then(editor => {
+                        window.editor = editor;
+                    })
+                    .catch( error => {
+                        console.error( error );
+                    } );
+            }
+
+
+        $(document).on('change','#setTypeSelect',function (e){
+                selectType = $(this).val();
+                 createInput(selectType);
+        });
+            @if(isset($setting->data) && $setting->set_type == 'ckeditor')
+                ckeditor();
+            @endif
+        function createInput(type){
+            defaultText = "{!! isset($setting->data) ? $setting->data : ' ' !!}";
+
+            if(type == 'text'){
+                newInput = $('<input>').attr({
+                    type:'text',
+                    name:'data',
+                    value : defaultText,
+                    class:'form-control',
+                    placeHolder: "Value Giriniz"
+                });
+            }else if(type == 'email') {
+                newInput = $('<input>').attr({
+                    type: 'email',
+                    name: 'data',
+                    value : defaultText,
+                    class: 'form-control',
+                    placeHolder: "e-posta Giriniz"
+                });
+            }else if(type == 'file' || type == 'image') {
+                newInput = $('<input>').attr({
+                    type: 'file',
+                    name: 'data',
+                });
+            }else if(type == 'ckeditor') {
+                newInput = $('<textarea>').attr({
+                    name: 'data',
+                    class: 'editor',
+                    id:'editor',
+                    placeHolder: "CKeditor"
+                });newInput.val(defaultText);
+            }else if(type == 'textarea') {
+                newInput = $('<textarea>').attr({
+                    name: 'data',
+                    class: 'form-control',
+                    placeHolder: "Textarea"
+                });newInput.val(defaultText);
+            }
+            $('.inputContent').empty().append(newInput);
+            if(type == 'ckeditor') {
+                ckeditor();
+            }
+        }
     </script>
 @endsection
 
