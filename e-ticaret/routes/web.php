@@ -32,6 +32,8 @@ Route::group(['middleware' => 'sitesetting'] , function () {
     Route::get('/sepet', [CartController::class , 'index'])->name('cart');
     Route::post('/sepet/ekle', [CartController::class , 'add'])->name('cart_add');
     Route::post('/sepet/sil', [CartController::class , 'remove'])->name('cart_remove');
+    Route::post('/sepet/couponCheck', [CartController::class , 'couponCheck'])->name('coupon.check');
+
     Auth::routes();
     Route::get('/cikis', [AjaxController::class, 'logout'])->name('cikis');
 });
