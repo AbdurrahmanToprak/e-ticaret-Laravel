@@ -88,6 +88,7 @@ class PageController extends Controller
             ->where('category_id' , $product->category_id)
             ->where('status' , '1')
             ->limit(6)
+            ->orderBy('id','desc')
             ->get();
         return view("frontend.pages.product" , compact('product','products'));
     }

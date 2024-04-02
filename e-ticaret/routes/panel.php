@@ -4,6 +4,7 @@
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\ContactController;
 use App\Http\Controllers\Backend\DashboardController;
+use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\SliderController;
 use App\Http\Controllers\Backend\AboutController;
 use App\Http\Controllers\Backend\SettingController;
@@ -25,6 +26,10 @@ Route::group(['middleware' => ['panelsetting', 'auth'] , 'prefix' => 'panel', 'a
     Route::resource('/category', CategoryController::class )->except('destroy');
     Route::delete('/category/sil', [CategoryController::class , 'destroy'])->name('category.destroy');
     Route::post('/category-status/update', [CategoryController::class , 'status'])->name('category.status');
+
+    Route::resource('/product', ProductController::class )->except('destroy');
+    Route::delete('/product/sil', [ProductController::class , 'destroy'])->name('product.destroy');
+    Route::post('/product-status/update', [ProductController::class , 'status'])->name('product.status');
 
     Route::get('/about', [AboutController::class , 'index'])->name('about');
     Route::post('/about/update', [AboutController::class , 'update'])->name('about.update');

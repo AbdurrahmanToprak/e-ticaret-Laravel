@@ -3,21 +3,21 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\CategoryRequest;
+use App\Http\Requests\ProductRequest;
 use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
-
-class CategoryController extends Controller
+class ProductController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $categories = Category::with('subcategory:id,cat_ust,name')->get();
-        return view('backend.pages.category.index',compact('categories'));
+        $products = Product::with('category:id,cat_ust,name')->orderBy('id','desc')->paginate(20);
+        return view('backend.pages.product.index',compact('products'));
     }
 
     /**
@@ -26,28 +26,35 @@ class CategoryController extends Controller
     public function create()
     {
         $categories = Category::get();
-        return view('backend.pages.category.edit',compact('categories'));
+        return view('backend.pages.product.edit',compact('categories'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(CategoryRequest $request)
+    public function store(ProductRequest $request)
     {
         if($request->hasFile('image')){
             $resim = $request->file('image');
             $dosyaadi  = time().'-'. Str::slug($request->name).'.'.$resim->getClientOriginalExtension();
-            $resim->move(public_path('img/category') , $dosyaadi);
+            $resim->move(public_path('img/product') , $dosyaadi);
 
         }
-        Category::create([
+
+
+        Product::create([
             'name' => $request->name,
-            'cat_ust' => $request->cat_ust,
+            'category_id' => $request->category_id,
             'status' => $request->status,
             'content' => $request->content,
+            'short_text' => $request->short_text,
+            'price' => $request->price,
+            'color' => $request->color,
+            'size' => $request->size,
+            'piece' => $request->piece,
             'image' => $dosyaadi,
         ]);
-        return redirect()->route('panel.category.index')->withSuccess('Başarıyla oluşturuldu.');
+        return redirect()->route('panel.product.index')->withSuccess('Başarıyla oluşturuldu.');
     }
 
     /**
@@ -63,41 +70,46 @@ class CategoryController extends Controller
      */
     public function edit(string $id)
     {
-        $category = Category::where('id' , $id)->first();
+        $product = Product::where('id' , $id)->first();
         $categories = Category::get();
-        return view('backend.pages.category.edit' ,compact('category','categories'));
+        return view('backend.pages.product.edit' ,compact('product','categories'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(ProductRequest $request, string $id)
     {
-        $category = Category::findOrFail($id);
+        $product = Product::findOrFail($id);
 
         if($request->hasFile('image')){
             $resim = $request->file('image');
             $dosyaadi  = time().'-'. Str::slug($request->name).'.'.$resim->getClientOriginalExtension();
-            $resim->move(public_path('img/category') , $dosyaadi);
+            $resim->move(public_path('img/product') , $dosyaadi);
 
-            if ($category->image) {
-                $eskiDosyaYolu = public_path('img/category') . '/' . $category->image;
+            if ($product->image) {
+                $eskiDosyaYolu = public_path('img/product') . '/' . $product->image;
                 if (file_exists($eskiDosyaYolu)) {
                     unlink($eskiDosyaYolu);
                 }
             }
         } else {
 
-            $dosyaadi = $category->image;
+            $dosyaadi = $product->image;
         }
-        Category::where('id',$id)->update([
+        Product::where('id',$id)->update([
             'name' => $request->name,
-            'cat_ust' => $request->cat_ust,
+            'category_id' => $request->category_id,
             'status' => $request->status,
             'content' => $request->content,
+            'short_text' => $request->short_text,
+            'price' => $request->price,
+            'color' => $request->color,
+            'size' => $request->size,
+            'piece' => $request->piece,
             'image' => $dosyaadi,
         ]);
-        return redirect()->route('panel.category.index')->withSuccess('Başarıyla Güncellendi.');
+        return redirect()->route('panel.product.index')->withSuccess('Başarıyla Güncellendi.');
     }
 
     /**
@@ -105,20 +117,24 @@ class CategoryController extends Controller
      */
     public function destroy(Request $request)
     {
-        $category = Category::where('id', $request->id)->firstOrFail();
+        $product = Product::where('id', $request->id)->firstOrFail();
 
-        dosyayiSil('img/category/' . $category->image);
-        $category->delete();
+        if (!empty($product->image)) {
+            dosyayiSil('img/product/' . $product->image);
+        }
+
+        $product->delete();
 
         return response(['error' => false, 'message' => 'Başarıyla silindi.']);
     }
+
 
 
     public function status(Request $request)
     {
         $update = $request->status;
         $updateCheck = $update == "false" ? '0' : '1';
-        Category::where('id' , $request->id)->update(['status' => $updateCheck]);
+        Product::where('id' , $request->id)->update(['status' => $updateCheck]);
         return response(['error' => false , 'status' =>$update]);
 
     }

@@ -84,7 +84,7 @@
                                 <div class="item">
                                     <div class="block-4 text-center">
                                         <figure class="block-4-image">
-                                            <img src="{{asset($item->image)}}" alt="{{$item->name}}" class="img-fluid">
+                                            <img src="{{asset('img/product/' . $item->image)}}" alt="{{$item->name}}" class="img-fluid">
                                         </figure>
                                         <div class="block-4-text p-4">
                                             <h3><a href="{{route('productDetail',$item->slug)}}">{{$item->name}}</a></h3>
