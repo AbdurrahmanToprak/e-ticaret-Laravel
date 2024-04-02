@@ -68,10 +68,16 @@ class SettingController extends Controller
             $dosyaadi = $setting->data;
         }
 
+        if($request->set_type == 'file' || $request->set_type == 'image'){
+            $dataItem = $dosyaadi ?? $setting->data;
+        }else{
+            $dataItem = $request->data ?? $setting->data;
+
+        }
         $setting->update(
             [
                 'name' => $key,
-                'data' => $dosyaadi ?? $request->data,
+                'data' => $dataItem,
                 'set_type' => $request->set_type,
             ]);
         return back()->withSuccess('Başarılı');

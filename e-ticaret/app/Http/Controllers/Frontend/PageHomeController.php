@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Models\About;
 use App\Models\Category;
+use App\Models\Product;
 use App\Models\Slider;
 use Illuminate\Http\Request;
 
@@ -18,7 +19,12 @@ class PageHomeController extends Controller
         $slider = Slider::where('status', '1')->first();
 
         $about = About::where('id' , 1)->first();
-        return view('frontend.pages.index', compact('slider'  , 'about'));
+        $lastProducts = Product::where('status' , '1')->select(['id','name','slug','size','color','price','category_id','image'])
+            ->with('category')
+            ->orderBy('id','desc')
+            ->limit(10)
+            ->get();
+        return view('frontend.pages.index', compact('slider'  , 'about','lastProducts'));
     }
 
     /**

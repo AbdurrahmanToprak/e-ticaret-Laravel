@@ -49,7 +49,12 @@
                                     <a href="{{ asset('img/setting/' . ($setting->data ?? 'resimyok.webp')) }}" target="_blank">
                                         <img src="{{ asset('img/setting/' . ($setting->data ?? 'resimyok.webp')) }}" alt="" style="max-width: 300px; max-height: 200px;">
                                     </a>
+                                @elseif(isset($setting->set_type) && $setting->set_type == 'file')
+                                    <iframe src="{{ asset('img/setting/' . ($setting->data ?? 'resimyok.webp')) }}" style="width: 100%; height: 600px;" frameborder="0"></iframe>
+                                @else
                                 @endif
+
+
                             </div>
 
 
