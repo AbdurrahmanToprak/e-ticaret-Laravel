@@ -56,6 +56,37 @@ class CartController extends Controller
             ];
         }
         session(['cart' => $cartItem]);
+
+        if($request->ajax()){
+            return response()->json(['Sepet Güncellendi.']);
+        }
+        return back()->withSuccess('Urun Sepete Eklendi.');
+    }
+
+    public function newqty(Request $request){
+        $product_id = $request->product_id;
+        $itemTotal = 0;
+        $piece = $request->piece;
+        $urun = Product::find($product_id);
+        if(!$urun){
+
+            return response()->json(['Urun Bulunamadi.']);
+        }
+        $cartItem = session('cart' , []);
+
+        if(array_key_exists($product_id,$cartItem)){
+            $cartItem[$product_id]['piece'] = $piece;
+            if($piece == 0 || $piece < 0){
+                unset($cartItem[$product_id]);
+            }
+            $itemTotal = $urun->price * $piece;
+        }
+
+        session(['cart' => $cartItem]);
+
+        if($request->ajax()){
+            return response()->json(['itemTotal' => $itemTotal,'message' => 'Sepet Güncellendi.']);
+        }
         return back()->withSuccess('Urun Sepete Eklendi.');
     }
     public function remove(Request $request)
