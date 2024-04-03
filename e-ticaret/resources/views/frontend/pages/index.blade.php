@@ -105,7 +105,7 @@
         </div>
     </div>
 
-
+ @if(!empty($settings['kampanya-image']))
     <div class="site-section block-8">
         <div class="container">
             <div class="row justify-content-center  mb-5">
@@ -126,5 +126,6 @@
             </div>
         </div>
     </div>
+ @endif
 
     @endsection

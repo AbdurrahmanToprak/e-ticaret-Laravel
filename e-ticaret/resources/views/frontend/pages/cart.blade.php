@@ -140,7 +140,11 @@
 @section('customjs')
     <script>
         $(document).on('click' ,'.paymentButton', function (e){
+                var url = "{{route('cart_form')}}";
 
+                @if(!empty(session()->get('cart')))
+                    window.location.href = url;
+                @endif
         });
 
 
@@ -180,7 +184,6 @@
                     if(piece == 0){
                         $('.selected').remove();
                     }
-                    console.log(response);
                 }
             });
         }
