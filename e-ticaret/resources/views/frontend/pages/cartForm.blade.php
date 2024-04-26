@@ -95,15 +95,12 @@
 
                     <div class="row mb-5">
                         <div class="col-md-12">
-                            <h2 class="h3 mb-3 text-black">Coupon Code</h2>
+                            <h2 class="h3 mb-3 text-black">İndirim Kuponu</h2>
                             <div class="p-3 p-lg-5 border">
 
-                                <label for="c_code" class="text-black mb-3">Enter your coupon code if you have one</label>
+                                <label for="c_code" class="text-black mb-3">Kupon Kodu</label>
                                 <div class="input-group w-75">
-                                    <input type="text" class="form-control" id="c_code" placeholder="Coupon Code" aria-label="Coupon Code" aria-describedby="button-addon2">
-                                    <div class="input-group-append">
-                                        <button class="btn btn-primary btn-sm" type="button" id="button-addon2">Apply</button>
-                                    </div>
+                                    <input type="text" class="form-control" id="c_code" placeholder="Kupon Kodu" readonly value="{{session()->get('coupon_code') ?? ''}}" aria-label="Kupon Kodu" aria-describedby="button-addon2">
                                 </div>
 
                             </div>
@@ -112,7 +109,7 @@
 
                     <div class="row mb-5">
                         <div class="col-md-12">
-                            <h2 class="h3 mb-3 text-black">Your Order</h2>
+                            <h2 class="h3 mb-3 text-black">Sipariş  Detayı</h2>
                             <div class="p-3 p-lg-5 border">
                                 <table class="table site-block-order-table mb-5">
                                     <thead>
@@ -120,57 +117,30 @@
                                     <th>Total</th>
                                     </thead>
                                     <tbody>
+
+                                    @if(session()->get('cart'))
+                                        @foreach(session()->get('cart') as $key=> $cart)
+                                            <tr>
+                                                <td>{{$cart['name']}} <strong class="mx-2">x</strong> {{$cart['piece']}} </td>
+                                                <td>{{$cart['price']}} TL</td>
+                                            </tr>
+                                        @endforeach
+                                    @endif
                                     <tr>
-                                        <td>Top Up T-Shirt <strong class="mx-2">x</strong> 1</td>
-                                        <td>$250.00</td>
+                                        <td class="text-black font-weight-bold"><strong>İndirim</strong></td>
+                                        <td class="text-black font-weight-bold"><strong>{{session()->get('coupon_price') ?? 0}} TL</strong></td>
                                     </tr>
                                     <tr>
-                                        <td>Polo Shirt <strong class="mx-2">x</strong>   1</td>
-                                        <td>$100.00</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-black font-weight-bold"><strong>Cart Subtotal</strong></td>
-                                        <td class="text-black">$350.00</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-black font-weight-bold"><strong>Order Total</strong></td>
-                                        <td class="text-black font-weight-bold"><strong>$350.00</strong></td>
+                                        <td class="text-black font-weight-bold"><strong>Toplam Tutar</strong></td>
+                                        <td class="text-black font-weight-bold"><strong>{{session()->get('total_price') ?? 0}} TL</strong></td>
                                     </tr>
                                     </tbody>
                                 </table>
 
-                                <div class="border p-3 mb-3">
-                                    <h3 class="h6 mb-0"><a class="d-block" data-toggle="collapse" href="#collapsebank" role="button" aria-expanded="false" aria-controls="collapsebank">Direct Bank Transfer</a></h3>
 
-                                    <div class="collapse" id="collapsebank">
-                                        <div class="py-2">
-                                            <p class="mb-0">Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="border p-3 mb-3">
-                                    <h3 class="h6 mb-0"><a class="d-block" data-toggle="collapse" href="#collapsecheque" role="button" aria-expanded="false" aria-controls="collapsecheque">Cheque Payment</a></h3>
-
-                                    <div class="collapse" id="collapsecheque">
-                                        <div class="py-2">
-                                            <p class="mb-0">Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="border p-3 mb-5">
-                                    <h3 class="h6 mb-0"><a class="d-block" data-toggle="collapse" href="#collapsepaypal" role="button" aria-expanded="false" aria-controls="collapsepaypal">Paypal</a></h3>
-
-                                    <div class="collapse" id="collapsepaypal">
-                                        <div class="py-2">
-                                            <p class="mb-0">Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
-                                        </div>
-                                    </div>
-                                </div>
 
                                 <div class="form-group">
-                                    <button class="btn btn-primary btn-lg py-3 btn-block" onclick="window.location='thankyou.html'">Place Order</button>
+                                    <button class="btn btn-primary btn-lg py-3 btn-block" >Siparişi Tamamla</button>
                                 </div>
 
                             </div>

@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Coupon;
+use App\Models\Invoice;
+use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rules\Exists;
 
 class CartController extends Controller
 {
@@ -144,13 +147,87 @@ class CartController extends Controller
         $newTotalPrice = $totalPrice - $couponPrice;
         session()->put('total_price' ,$newTotalPrice);
         session()->put('coupon_code' ,$couponCode);
+        session()->put('coupon_price' ,$couponPrice);
 
         return back()->withSuccess('Kupon Başarıyla Uygulandı.');
     }
 
+    function generateCode(){
+        $siparis_no = generateOTP(7);
+        if($this->barcodeKodExists($siparis_no)){
+            return $this->generateCode();
+        }
+        return $siparis_no;
+    }
+
+    function barcodeKodExists($siparis_no){
+        return Invoice::where('order_no',$siparis_no)->exists();
+    }
+
     public function cartSave(Request $request)
     {
-        return $request->all();
+        $request->validate([
+            'name' => 'required | string | min:3',
+            'country' => 'required | string',
+            'company_name' => 'nullable | string',
+            'address' => 'required | string',
+            'city' => 'required | string',
+            'district' => 'required | string',
+            'zip_code' => 'required | string',
+            'email' => 'required | email',
+            'phone' => 'required | string',
+            'note' => 'nullable | string',
+        ],[
+            'name.min' => 'İsim en az :min karakterden oluşmalıdır.',
+            'country.required' => 'Ülke alanı boş bırakılamaz.',
+            'country.string' => 'Ülke dize türünde olmalıdır.',
+            'name.required' => 'İsim alanı boş bırakılamaz.',
+            'name.string' => 'İsim dize türünde olmalıdır.',
+            'company_name.string' => 'Şirket adı dize türünde olmalıdır.',
+            'address.required' => 'Adres alanı boş bırakılamaz.',
+            'address.string' => 'Adres dize türünde olmalıdır.',
+            'city.required' => 'Şehir alanı boş bırakılamaz.',
+            'city.string' => 'Şehir dize türünde olmalıdır.',
+            'district.required' => 'İlçe/Görev alanı boş bırakılamaz.',
+            'district.string' => 'İlçe/Görev dize türünde olmalıdır.',
+            'zip_code.required' => 'Posta kodu alanı boş bırakılamaz.',
+            'zip_code.string' => 'Posta kodu dize türünde olmalıdır.',
+            'email.required' => 'E-posta adresi alanı boş bırakılamaz.',
+            'email.email' => 'Geçerli bir e-posta adresi girilmelidir.',
+            'phone.required' => 'Telefon numarası alanı boş bırakılamaz.',
+            'phone.string' => 'Telefon numarası dize türünde olmalıdır.',
+            'note.string' => 'Not dize türünde olmalıdır.',
+    ]);
+
+        $invoice = Invoice::create([
+            "user_id" => auth()->user()->id ?? null,
+            "order_no"=> $this->generateCode(),
+            "country"=> $request->country,
+            "name"=> $request->name,
+            "company_name"=> $request->company_name,
+            "address"=> $request->address,
+            "city"=> $request->city,
+            "district"=> $request->district,
+            "zip_code"=> $request->zip_code,
+            "email"=> $request->email,
+            "phone"=> $request->phone,
+            "note"=> $request->note,
+        ]);
+
+        $cart = session()->get('cart') ?? [];
+        foreach ($cart as $key => $item){
+            Order::create([
+                'order_no' => $invoice->order_no,
+                'product_id' =>$key,
+                'name' => $item['name'],
+                'price' => $item['price'],
+                'piece' => $item['piece'],
+            ]);
+
+
+        }
+        session()->forget('cart');
+        return redirect()->route('home');
     }
 
 

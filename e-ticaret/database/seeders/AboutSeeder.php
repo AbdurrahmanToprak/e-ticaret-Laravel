@@ -24,7 +24,7 @@ class AboutSeeder extends Seeder
             'text_2_content' => '30 gün içerisinde ürünlerinizi iade edebilirsiniz.',
             'text_3_icon' => 'icon-help',
             'text_3' => 'Müşteri Destek',
-            'text_3_content' => '/24 bize ulaşabilirsiniz.',
+            'text_3_content' => '7/24 bize ulaşabilirsiniz.',
         ]);
     }
 }

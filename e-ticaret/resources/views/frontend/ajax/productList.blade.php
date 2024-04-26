@@ -8,7 +8,7 @@
                 <div class="block-4-text p-4">
                     <h3><a href="{{route('productDetail', $product->slug)}}">{{$product->name}}</a></h3>
                     <p class="mb-0">{{$product->short_text}}</p>
-                    <p class="text-primary font-weight-bold">{{number_format($product->price,2)}}</p>
+                    <p class="text-primary font-weight-bold">{{number_format($product->price,2)}} TL</p>
                     <form action="{{route('cart_add')}}" method="POST">
                         @csrf
                         <input type="hidden" name="product_id" value="{{$product->id}}">
