@@ -19,7 +19,11 @@ class CartController extends Controller
 
         foreach ($cartItem as $cart)
         {
-            $totalPrice += $cart['price'] * $cart['piece'];
+            $kdvOrani = $cart['kdv'] ?? 0;
+            $kdvTutar = ($cart['price'] * $cart['piece']) * ($kdvOrani /100);
+            $toplamTutar = $cart['price'] * $cart['piece'] + $kdvTutar;
+
+            $totalPrice += $toplamTutar;
         }
         if(session()->get('coupon_code')){
             $coupon = Coupon::where('name' , session()->get('coupon_code'))->where('status' , '1')->first();
@@ -78,6 +82,7 @@ class CartController extends Controller
                 'name' => $urun->name,
                 'price' => $urun->price,
                 'piece' => $piece ?? 1,
+                'kdv' => $urun->kdv,
                 'size' => $size,
             ];
         }
@@ -105,13 +110,39 @@ class CartController extends Controller
             if($piece == 0 || $piece < 0){
                 unset($cartItem[$product_id]);
             }
-            $itemTotal = $urun->price * $piece;
+            $kdvOraniitem = $urun->kdv ?? 0;
+            $kdvTutaritem = ($urun->price * $piece) * ($kdvOraniitem /100);
+            $itemTotal = $urun->price * $piece + $kdvTutaritem;
         }
 
         session(['cart' => $cartItem]);
 
+        $cartItem = session()->get('cart');
+
+        $totalPrice = 0;
+
+        foreach ($cartItem as $cart)
+        {
+            $kdvOrani = $cart['kdv'] ?? 0;
+            $kdvTutar = ($cart['price'] * $cart['piece']) * ($kdvOrani /100);
+            $toplamTutar = $cart['price'] * $cart['piece'] + $kdvTutar;
+
+            $totalPrice += $toplamTutar;
+        }
+        if(session()->get('coupon_code')){
+            $coupon = Coupon::where('name' , session()->get('coupon_code'))->where('status' , '1')->first();
+            $couponPrice = $coupon->price ?? 0;
+
+            $newTotalPrice = $totalPrice - $couponPrice;
+        }else{
+            $newTotalPrice = $totalPrice;
+        }
+
+        session()->put('total_price' ,$newTotalPrice);
+
+
         if($request->ajax()){
-            return response()->json(['itemTotal' => $itemTotal,'message' => 'Sepet Güncellendi.']);
+            return response()->json(['itemTotal' => $itemTotal,'totalPrice' => session()->get('total_price'),'message' => 'Sepet Güncellendi.']);
         }
         return back()->withSuccess('Urun Sepete Eklendi.');
     }

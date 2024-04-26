@@ -52,6 +52,7 @@ class ProductController extends Controller
             'color' => $request->color,
             'size' => $request->size,
             'piece' => $request->piece,
+            'kdv' => $request->kdv,
             'image' => $dosyaadi,
         ]);
         return redirect()->route('panel.product.index')->withSuccess('Başarıyla oluşturuldu.');
@@ -107,6 +108,7 @@ class ProductController extends Controller
             'color' => $request->color,
             'size' => $request->size,
             'piece' => $request->piece,
+            'kdv' => $request->kdv,
             'image' => $dosyaadi,
         ]);
         return redirect()->route('panel.product.index')->withSuccess('Başarıyla Güncellendi.');

@@ -128,7 +128,7 @@
                                     @endif
                                     <tr>
                                         <td class="text-black font-weight-bold"><strong>İndirim</strong></td>
-                                        <td class="text-black font-weight-bold"><strong>{{session()->get('coupon_price') ?? 0}} TL</strong></td>
+                                        <td class="text-black font-weight-bold"><strong>-{{session()->get('coupon_price') ?? 0}} TL</strong></td>
                                     </tr>
                                     <tr>
                                         <td class="text-black font-weight-bold"><strong>Toplam Tutar</strong></td>

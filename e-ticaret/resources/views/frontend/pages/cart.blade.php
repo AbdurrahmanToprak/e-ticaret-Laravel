@@ -66,7 +66,15 @@
                                         </div>
 
                                     </td>
-                                    <td class="itemTotal">{{$cart['price'] * $cart['piece']}} TL</td>
+                                    @php
+                                        $kdvOrani = $cart['kdv'] ?? 0 ;
+                                        $fiyat = $cart['price'];
+                                        $adet = $cart['piece'];
+
+                                        $kdvTutar = ($fiyat * $adet) * ($kdvOrani /100);
+                                        $toplamTutar = $fiyat * $adet + $kdvTutar;
+                                    @endphp
+                                    <td class="itemTotal">{{$toplamTutar}} TL</td>
 
                                     <td>
                                         <form action="{{route('cart_remove')}}" method="POST">
@@ -120,7 +128,7 @@
                                     <span class="text-black">Toplam Tutar</span>
                                 </div>
                                 <div class="col-md-6 text-right">
-                                    <strong class="text-black">{{session()->get('total_price') ?? ''}} TL</strong>
+                                    <strong class="text-black newTotalPrice">{{session()->get('total_price') ?? ''}} TL</strong>
                                 </div>
                             </div>
 
@@ -184,6 +192,7 @@
                     if(piece == 0){
                         $('.selected').remove();
                     }
+                    $('.newTotalPrice').text(response.totalPrice);
                 }
             });
         }
