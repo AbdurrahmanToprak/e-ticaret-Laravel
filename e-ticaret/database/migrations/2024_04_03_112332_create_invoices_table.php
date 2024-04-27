@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('country')->nullable();
             $table->string('city')->nullable();
             $table->string('district')->nullable();
+            $table->integer('status')->default('0');
             $table->string('zip_code')->nullable();
             $table->string('note')->nullable();
 

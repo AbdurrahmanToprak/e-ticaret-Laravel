@@ -46,6 +46,18 @@
             </div>
         </li>
         <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#ui-basic2" aria-expanded="false" aria-controls="ui-basic2">
+                <i class="icon-layout menu-icon"></i>
+                <span class="menu-title">Siparişler</span>
+                <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="ui-basic2">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"> <a class="nav-link" href="{{route('panel.order')}}">Siparişler</a></li>
+                </ul>
+            </div>
+        </li>
+        <li class="nav-item">
             <a class="nav-link" href="{{route('panel.about')}}">
                 <i class="icon-grid menu-icon"></i>
                 <span class="menu-title">Hakkımızda</span>
