@@ -229,7 +229,7 @@ class CartController extends Controller
 
         }
         session()->forget('cart');
-        return redirect()->route('home');
+        return redirect()->route('home')->withSuccess('Alışveriş başarıyla tamamlandı');
     }
 
 
