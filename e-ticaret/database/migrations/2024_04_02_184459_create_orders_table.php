@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('name')->nullable();
             $table->double('price', 8,2)->nullable();
             $table->integer('piece')->nullable();
+            $table->integer('kdv')->nullable();
+
 
             $table->timestamps();
         });

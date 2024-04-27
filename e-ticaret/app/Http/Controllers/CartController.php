@@ -14,7 +14,14 @@ class CartController extends Controller
 
     public function index()
     {
-        $cartItem = session('cart', []);
+        $cartItem = $this->cartList();
+        return view("frontend.pages.cart" , compact('cartItem'));
+
+    }
+
+    public function cartList(){
+        $cartItem = session()->get('cart') ?? [];
+
         $totalPrice = 0;
 
         foreach ($cartItem as $cart)
@@ -25,10 +32,9 @@ class CartController extends Controller
 
             $totalPrice += $toplamTutar;
         }
-        if(session()->get('coupon_code')){
+        if(session()->get('coupon_code') && $totalPrice != 0){
             $coupon = Coupon::where('name' , session()->get('coupon_code'))->where('status' , '1')->first();
             $couponPrice = $coupon->price ?? 0;
-            $couponCode = $coupon->name ?? '';
 
             $newTotalPrice = $totalPrice - $couponPrice;
         }else{
@@ -36,30 +42,17 @@ class CartController extends Controller
         }
 
         session()->put('total_price' ,$newTotalPrice);
-        return view("frontend.pages.cart" , compact('cartItem'));
 
+        if(empty(session()->get('cart'))){
+            session()->forget('coupon_code');
+        }
+        return $cartItem;
     }
 
     public function sepetForm()
     {
-        $cartItem = session('cart', []);
-        $totalPrice = 0;
+        $cartItem = $this->cartList();
 
-        foreach ($cartItem as $cart)
-        {
-            $totalPrice += $cart['price'] * $cart['piece'];
-        }
-        if(session()->get('coupon_code')){
-            $coupon = Coupon::where('name' , session()->get('coupon_code'))->where('status' , '1')->first();
-            $couponPrice = $coupon->price ?? 0;
-            $couponCode = $coupon->name ?? '';
-
-            $newTotalPrice = $totalPrice - $couponPrice;
-        }else{
-            $newTotalPrice = $totalPrice;
-        }
-
-        session()->put('total_price' ,$newTotalPrice);
         return view("frontend.pages.cartForm" , compact('cartItem'));
 
     }
@@ -117,29 +110,7 @@ class CartController extends Controller
 
         session(['cart' => $cartItem]);
 
-        $cartItem = session()->get('cart');
-
-        $totalPrice = 0;
-
-        foreach ($cartItem as $cart)
-        {
-            $kdvOrani = $cart['kdv'] ?? 0;
-            $kdvTutar = ($cart['price'] * $cart['piece']) * ($kdvOrani /100);
-            $toplamTutar = $cart['price'] * $cart['piece'] + $kdvTutar;
-
-            $totalPrice += $toplamTutar;
-        }
-        if(session()->get('coupon_code')){
-            $coupon = Coupon::where('name' , session()->get('coupon_code'))->where('status' , '1')->first();
-            $couponPrice = $coupon->price ?? 0;
-
-            $newTotalPrice = $totalPrice - $couponPrice;
-        }else{
-            $newTotalPrice = $totalPrice;
-        }
-
-        session()->put('total_price' ,$newTotalPrice);
-
+        $this->cartList();
 
         if($request->ajax()){
             return response()->json(['itemTotal' => $itemTotal,'totalPrice' => session()->get('total_price'),'message' => 'Sepet Güncellendi.']);
@@ -153,32 +124,30 @@ class CartController extends Controller
         if(array_key_exists($product_id,$cartItem)){
             unset($cartItem[$product_id]);
         }
+
         session(['cart' => $cartItem]);
+
+        if(count(session()->get('cart')) == 0){
+            session()->forget('coupon_code');
+        }
         return back()->withSuccess('Basariyla sepetten cikarildi.');
 
     }
     public function couponCheck(Request $request)
     {
 
-        $cartItem = session('cart', []);
-        $totalPrice = 0;
-
-        foreach ($cartItem as $cart)
-        {
-            $totalPrice += $cart['price'] * $cart['piece'];
-        }
-
         $coupon = Coupon::where('name' , $request->coupon_name)->where('status' , '1')->first();
         if(empty($coupon)){
             return back()->withError('Kupon Bulunamadı.');
         }
-        $couponPrice = $coupon->price ?? 0;
         $couponCode = $coupon->name ?? '';
-
-        $newTotalPrice = $totalPrice - $couponPrice;
-        session()->put('total_price' ,$newTotalPrice);
         session()->put('coupon_code' ,$couponCode);
+
+        $couponPrice = $coupon->price ?? 0;
         session()->put('coupon_price' ,$couponPrice);
+
+
+        $this->cartList();
 
         return back()->withSuccess('Kupon Başarıyla Uygulandı.');
     }
@@ -253,6 +222,8 @@ class CartController extends Controller
                 'name' => $item['name'],
                 'price' => $item['price'],
                 'piece' => $item['piece'],
+                'kdv' => $item['kdv'],
+
             ]);
 
 

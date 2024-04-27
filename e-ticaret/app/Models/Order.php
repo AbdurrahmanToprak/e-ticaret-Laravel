@@ -15,5 +15,6 @@ class Order extends Model
         'name',
         'price',
         'piece',
+        'kdv',
     ];
 }
