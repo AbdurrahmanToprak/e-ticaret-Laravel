@@ -44,7 +44,7 @@
                                         </td>
                                         <td>{{$order->orders_count}}</td>
                                         <td class="d-flex">
-                                            <a href="{{route('panel.order.edit' , $order->id)}}" class="btn btn-primary mr-2">Düzenle</a>
+                                            <a href="{{route('panel.order.edit' , $order->id)}}" class="btn btn-primary mr-2">Detay</a>
                                             <button type="button" class="deleteBtn btn btn-danger">Sil</button>
                                         </td>
                                     </tr>
