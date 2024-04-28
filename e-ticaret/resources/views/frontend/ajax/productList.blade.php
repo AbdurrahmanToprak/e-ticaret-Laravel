@@ -9,9 +9,13 @@
                     <h3><a href="{{route('productDetail', $product->slug)}}">{{$product->name}}</a></h3>
                     <p class="mb-0">{{$product->short_text}}</p>
                     <p class="text-primary font-weight-bold">{{number_format($product->price,2)}} TL</p>
-                    <form action="{{route('cart_add')}}" method="POST">
+                    @php
+                    $sifrele = sifrele($product->id);
+                    @endphp
+                    {{sifrelecoz($sifrele)}}
+                    <form  method="POST" id="addForm">
                         @csrf
-                        <input type="hidden" name="product_id" value="{{$product->id}}">
+                        <input type="hidden" name="product_id" value="{{$sifrele}}">
                         <input type="hidden" name="size" value="{{$product->size}}">
                         <button type="submit" class="buy-now btn btn-sm btn-primary">Sepete Ekle</button>
                     </form>

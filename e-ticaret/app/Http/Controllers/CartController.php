@@ -59,7 +59,7 @@ class CartController extends Controller
 
     public function add(Request $request)
     {
-        $product_id = $request->product_id;
+        $product_id = sifrelecoz($request->product_id);
         $piece = $request->piece;
         $size = $request->size;
         $urun = Product::find($product_id);
@@ -82,7 +82,7 @@ class CartController extends Controller
         session(['cart' => $cartItem]);
 
         if($request->ajax()){
-            return response()->json(['Sepet Güncellendi.']);
+            return response()->json(['cartCount' => count(session()->get('cart')),'message' => 'Urun Sepete Eklendi.']);
         }
         return back()->withSuccess('Urun Sepete Eklendi.');
     }

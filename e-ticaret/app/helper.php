@@ -20,3 +20,14 @@ if(!function_exists('dosyayiSil')){
     }
 }
 
+if(!function_exists('sifrele')){
+    function sifrele($string){
+        return encrypt($string);
+    }
+}
+if(!function_exists('sifrelecoz')){
+    function sifrelecoz($string){
+        return decrypt($string);
+    }
+}
+

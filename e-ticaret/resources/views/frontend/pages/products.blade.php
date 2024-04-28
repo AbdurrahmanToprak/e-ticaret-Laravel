@@ -220,6 +220,24 @@
             }
             filtrele();
         });
+
+        $(document).on('submit' ,'#addForm', function (e) {
+            e.preventDefault();
+            const formData =$(this).serialize();
+            $.ajax({
+                headers:{
+                    'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
+                },
+                type: 'POST',
+                url: "{{route('cart_add')}}",
+                data:formData,
+                success: function (response){
+                    toastr.success(response.message)
+                    $('.count').text(response.cartCount);
+
+                }
+            });
+        });
     </script>
 
 @endsection
