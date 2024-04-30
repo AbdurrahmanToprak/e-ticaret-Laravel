@@ -77,9 +77,13 @@
                                     <td class="itemTotal">{{$toplamTutar}} TL</td>
 
                                     <td>
-                                        <form action="{{route('cart_remove')}}" method="POST">
+                                        <form class="removeItem" method="POST">
                                             @csrf
-                                            <input type="hidden" name="product_id" value="{{$key}}">
+
+                                            @php
+                                                $sifrele = sifrele($key);
+                                            @endphp
+                                            <input type="hidden" name="product_id" value="{{$sifrele}}">
                                             <button type="submit" class="btn btn-primary btn-sm">X</button>
                                         </form>
                                     </td>
@@ -196,6 +200,25 @@
                 }
             });
         }
+        $(document).on('click' ,'.removeItem', function (e) {
+            e.preventDefault();
+            const formData =$(this).serialize();
+            var item =$(this);
+            $.ajax({
+                headers:{
+                    'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
+                },
+                type: 'POST',
+                url: "{{route('cart_remove')}}",
+                data:formData,
+                success: function (response){
+                    toastr.success(response.message)
+                    $('.count').text(response.cartCount);
+                    item.closest('.orderItem').remove();
+
+                }
+            });
+        });
 
     </script>
 @endsection

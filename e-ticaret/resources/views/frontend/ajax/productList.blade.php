@@ -12,7 +12,6 @@
                     @php
                     $sifrele = sifrele($product->id);
                     @endphp
-                    {{sifrelecoz($sifrele)}}
                     <form  method="POST" id="addForm">
                         @csrf
                         <input type="hidden" name="product_id" value="{{$sifrele}}">
