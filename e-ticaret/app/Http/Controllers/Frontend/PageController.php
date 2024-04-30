@@ -19,6 +19,7 @@ class PageController extends Controller
     }
     public function products(Request $request , $slug=null)
     {
+
         $category = request()->segment(1) ?? null;
         $sizes = !empty($request->size) ? explode(',',$request->size ) : null;
 
@@ -30,6 +31,36 @@ class PageController extends Controller
 
         $order = $request->order ?? 'id';
         $sort = $request->sort ?? 'desc';
+
+        $anakategori =null;
+        $altkategori = null;
+
+        if(!empty($category) && empty($slug)){
+            $anakategori = Category::where('slug',$category)->first();
+
+        }else if(!empty($category) && !empty($slug)){
+            $anakategori = Category::where('slug' , $category)->first();
+            $altkategori = Category::where('slug' , $slug)->first();
+        }
+
+        $breadcrumb =[
+            'sayfalar' => [
+
+            ],
+            'active' => 'Ürünler'
+        ];
+
+        if(!empty($anakategori) && empty($altkategori)){
+            $breadcrumb ['active'] = $anakategori->name;
+
+        }
+        if(!empty($altkategori)){
+            $breadcrumb ['sayfalar'][] = [
+                'link' => route($anakategori->slug.'urunler'),
+                'name' => $anakategori->name,
+            ];
+            $breadcrumb ['active'] = $altkategori->name;
+        }
 
         $products = Product::where('status' , '1')
             ->where(function ($q) use($sizes,$colors,$startprice,$endprice){
@@ -64,21 +95,42 @@ class PageController extends Controller
             $colors = Product::where('status' , '1')->groupBy('color')->pluck('color')->toArray();
 
 
-        return view("frontend.pages.products" , compact('products','maxprice','sizelists', 'colors'));
+        return view("frontend.pages.products" , compact('breadcrumb','products','maxprice','sizelists', 'colors'));
     }
     public function productsOnSale()
     {
-        return view("frontend.pages.products");
+        $breadcrumb =[
+            'sayfalar' => [
+
+            ],
+            'active' => 'İndirimli  Ürünler'
+        ];
+        return view("frontend.pages.products",compact('breadcrumb'));
     }
 
     public function about()
     {
+
         $about = About::where('id', 1)->first();
-        return view("frontend.pages.about" , compact('about'));
+
+        $breadcrumb =[
+            'sayfalar' => [
+
+            ],
+            'active' => 'Hakkımızda'
+        ];
+        return view("frontend.pages.about" , compact('breadcrumb','about'));
     }
     public function contact()
     {
-        return view("frontend.pages.contact");
+
+        $breadcrumb =[
+            'sayfalar' => [
+
+            ],
+            'active' => 'İletişim'
+        ];
+        return view("frontend.pages.contact" ,compact('breadcrumb'));
     }
     public function productDetail($slug)
     {
@@ -90,7 +142,25 @@ class PageController extends Controller
             ->limit(6)
             ->orderBy('id','desc')
             ->get();
-        return view("frontend.pages.product" , compact('product','products'));
+
+        $category = Category::where('id', $product->category_id)->first();
+
+
+
+        $breadcrumb =[
+            'sayfalar' => [
+
+            ],
+            'active' => $product->name
+        ];
+
+        if(!empty($category)){
+            $breadcrumb ['sayfalar'][] = [
+                'link' => route($category->slug.'urunler'),
+                'name' => $category->name,
+            ];
+        }
+        return view("frontend.pages.product" , compact('breadcrumb','product','products'));
     }
 
     /**

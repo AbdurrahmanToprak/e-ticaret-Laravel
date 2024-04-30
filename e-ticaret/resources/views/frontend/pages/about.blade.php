@@ -1,12 +1,6 @@
 @extends('frontend.layout.app')
 @section('content')
-<div class="bg-light py-3">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12 mb-0"><a href="{{route('home')}}">Ana Sayfa</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">Hakkımızda</strong></div>
-        </div>
-    </div>
-</div>
+    @include('frontend.inc.breadcrumb')
 
 <div class="site-section border-bottom" data-aos="fade">
     <div class="container">
