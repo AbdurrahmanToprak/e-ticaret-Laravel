@@ -22,6 +22,9 @@ return new class extends Migration
             $table->string('color')->nullable();
             $table->integer('piece')->nullable();
             $table->integer('kdv')->nullable();
+            $table->string('title')->nullable();
+            $table->string('description')->nullable();
+            $table->string('keywords')->nullable();
             $table->text('short_text')->nullable();
             $table->enum('status' , ['0','1'])->nullable();
             $table->longText('content')->nullable();

@@ -21,6 +21,9 @@ class Category extends Model
             'status',
         ];
 
+    public function images(){
+        return $this->hasOne(ImageMedia::class,'table_id', 'id')->where('model_name','Category');
+    }
     public function items(){
         return $this->hasMany(Product::class, 'category_id' , 'id');
     }

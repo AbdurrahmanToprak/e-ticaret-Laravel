@@ -118,6 +118,18 @@
                             <input type="text" class="form-control" id="short_text" name="short_text"  value="{{$product->short_text ?? ''}}" placeholder="Kısa Bilgi">
                         </div>
                         <div class="form-group">
+                            <label for="title">Seo Title</label>
+                            <input type="text" class="form-control" id="title" name="title"  value="{{$product->title ?? ''}}" placeholder="Seo Title">
+                        </div>
+                        <div class="form-group">
+                            <label for="description">Seo Tanım</label>
+                            <input type="text" class="form-control" id="description" name="description"  value="{{$product->description ?? ''}}" placeholder="Seo Tanım">
+                        </div>
+                        <div class="form-group">
+                            <label for="keywords">Seo Keywords</label>
+                            <input type="text" class="form-control" id="keywords" name="keywords"  value="{{$product->keywords ?? ''}}" placeholder="Seo Keywords">
+                        </div>
+                        <div class="form-group">
                             <label for="status">Durum</label>
                             @php
                             $status = $product->status ?? '1';

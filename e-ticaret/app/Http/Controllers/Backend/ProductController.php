@@ -53,6 +53,9 @@ class ProductController extends Controller
             'size' => $request->size,
             'piece' => $request->piece,
             'kdv' => $request->kdv,
+            'title' => $request->title,
+            'description' => $request->description,
+            'keywords' => $request->keywords,
             'image' => $dosyaadi,
         ]);
         return redirect()->route('panel.product.index')->withSuccess('Başarıyla oluşturuldu.');
@@ -109,6 +112,9 @@ class ProductController extends Controller
             'size' => $request->size,
             'piece' => $request->piece,
             'kdv' => $request->kdv,
+            'title' => $request->title,
+            'description' => $request->description,
+            'keywords' => $request->keywords,
             'image' => $dosyaadi,
         ]);
         return redirect()->route('panel.product.index')->withSuccess('Başarıyla Güncellendi.');

@@ -16,4 +16,7 @@ class Slider extends Model
         'status',
         'image',
     ];
+    public function images(){
+        return $this->hasOne(ImageMedia::class,'table_id', 'id')->where('model_name','Slider');
+    }
 }

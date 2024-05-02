@@ -94,8 +94,21 @@ class PageController extends Controller
             $sizelists = Product::where('status' , '1')->groupBy('size')->pluck('size')->toArray();
             $colors = Product::where('status' , '1')->groupBy('color')->pluck('color')->toArray();
 
+        $seolists = metaolustur($category);
 
-        return view("frontend.pages.products" , compact('breadcrumb','products','maxprice','sizelists', 'colors'));
+        $seo = [
+            'title' => $seolists['title'] ?? '',
+            'description' => $seolists['description'] ?? '',
+            'keywords' => $seolists['keywords'] ?? '',
+            'image' => asset('img/page-bg.jpg'),
+            'url' => $seolists['currenturl'],
+            'canonical' => $seolists['trpage'],
+            'robots' => 'index , follow',
+
+        ];
+
+
+        return view("frontend.pages.products" , compact('seo','breadcrumb','products','maxprice','sizelists', 'colors'));
     }
     public function productsOnSale()
     {
@@ -119,7 +132,19 @@ class PageController extends Controller
             ],
             'active' => 'Hakkımızda'
         ];
-        return view("frontend.pages.about" , compact('breadcrumb','about'));
+        $seolists = metaolustur('about');
+
+        $seo = [
+            'title' => $seolists['title'] ?? '',
+            'description' => $seolists['description'] ?? '',
+            'keywords' => $seolists['keywords'] ?? '',
+            'image' => asset('img/page-bg.jpg'),
+            'url' => $seolists['currenturl'],
+            'canonical' => $seolists['trpage'],
+            'robots' => 'index , follow',
+
+        ];
+        return view("frontend.pages.about" , compact('seo','breadcrumb','about'));
     }
     public function contact()
     {
@@ -130,7 +155,20 @@ class PageController extends Controller
             ],
             'active' => 'İletişim'
         ];
-        return view("frontend.pages.contact" ,compact('breadcrumb'));
+
+        $seolists = metaolustur('contact');
+
+        $seo = [
+            'title' => $seolists['title'] ?? '',
+            'description' => $seolists['description'] ?? '',
+            'keywords' => $seolists['keywords'] ?? '',
+            'image' => asset('img/page-bg.jpg'),
+            'url' => $seolists['currenturl'],
+            'canonical' => $seolists['trpage'],
+            'robots' => 'index , follow',
+
+        ];
+        return view("frontend.pages.contact" ,compact('seo','breadcrumb'));
     }
     public function productDetail($slug)
     {
@@ -160,7 +198,25 @@ class PageController extends Controller
                 'name' => $category->name,
             ];
         }
-        return view("frontend.pages.product" , compact('breadcrumb','product','products'));
+
+
+        $title = ($product->title  ?? $product->name). '-' . $product->category->name . '-' . config('app.name');
+
+        $description = 'Bu güzel '.$product->name.' ürünü '.$product->category->name.' kategorisinden bitmeden  '.config('app.name'). ' hemen alın';
+
+        $seodescription = $product->description ?? $description;
+
+        $seo = [
+            'title' => $title ?? '',
+            'description' => $description ?? '',
+            'keywords' => $product->keywords ?? '',
+            'image' => asset($product->image),
+            'url' => route('productDetail', $product->slug),
+            'canonical' => route('productDetail', $product->slug),
+            'robots' => 'index , follow',
+
+        ];
+        return view("frontend.pages.product" , compact('seo','breadcrumb','product','products'));
     }
 
     /**

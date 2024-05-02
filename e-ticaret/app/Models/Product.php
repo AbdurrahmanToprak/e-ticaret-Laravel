@@ -23,8 +23,14 @@ class Product extends Model
         'short_text',
         'status',
         'content',
+        'title',
+        'description',
+        'keywords',
     ];
 
+    public function images(){
+        return $this->hasOne(ImageMedia::class,'table_id', 'id')->where('model_name','Product');
+    }
     public function category(){
         return $this->hasOne(Category::class, 'id' , 'category_id');
     }

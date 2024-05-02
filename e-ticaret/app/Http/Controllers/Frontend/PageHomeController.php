@@ -24,7 +24,20 @@ class PageHomeController extends Controller
             ->orderBy('id','desc')
             ->limit(10)
             ->get();
-        return view('frontend.pages.index', compact('slider'  , 'about','lastProducts'));
+
+        $seolists = metaolustur('home');
+
+        $seo = [
+            'title' => $seolists['title'] ?? '',
+            'description' => $seolists['description'] ?? '',
+            'keywords' => $seolists['keywords'] ?? '',
+            'image' => asset('img/page-bg.jpg'),
+            'url' => $seolists['currenturl'],
+            'canonical' => $seolists['trpage'],
+            'robots' => 'index , follow',
+
+        ];
+        return view('frontend.pages.index', compact('seo','slider'  , 'about','lastProducts'));
     }
 
     /**

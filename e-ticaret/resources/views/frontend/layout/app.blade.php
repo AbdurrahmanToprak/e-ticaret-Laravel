@@ -1,9 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>E-Ticaret Şablonu</title>
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>{{ $seo['title'] ?? config('app.name') }}</title>
+
+    <!--meta-->
+    <meta name="description" content="{{$seo['description'] ?? ''}}">
+    <meta name="keywords" content="{{$seo['keywords'] ?? ''}}">
+    <meta name="robots" content="{{$seo['robots'] ?? ''}}">
+    <meta name="author" content="{{ config('app.name')}}">
+
+    <!--twitter og-->
+    <meta name="twitter:site" content="{{$settings['twitter_adres'] ?? ''}}">
+    <meta name="twitter:creator" content="{{$settings['twitter_adres'] ?? ''}}">
+    <meta name="twitter:card" content="website">
+    <meta name="twitter:title" content="{{$seo['title'] ?? ''}}">
+    <meta name="twitter:description" content="{{$seo['description'] ?? ''}}">
+    <meta name="twitter:image" content="{{$seo['image'] ?? ''}}">
+
+    <!--facebook og-->
+    <meta property="og:url" content="{{$seo['url'] ?? ''}}">
+    <meta name="og:title" content="{{$seo['title'] ?? ''}}">
+    <meta property="og:description" content="{{$seo['description'] ?? ''}}">
+    <meta property="og:image" content="{{$seo['image'] ?? ''}}">
+
+    <meta property="canonical" content="{{$seo['canonical'] ?? ''}}">
+    <meta property="siteurl" content="{{ozel_path(app()->getLocale())}}">
+
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mukta:300,400,700">
     <link rel="stylesheet" href="{{asset('/')}}fonts/icomoon/style.css">
