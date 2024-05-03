@@ -5,6 +5,7 @@ use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\ContactController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\OrderController;
+use App\Http\Controllers\Backend\PageseoController;
 use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\SliderController;
 use App\Http\Controllers\Backend\AboutController;
@@ -47,6 +48,13 @@ Route::group(['middleware' => ['panelsetting', 'auth'] , 'prefix' => 'panel', 'a
     Route::get('/setting/{id}/edit', [SettingController::class , 'edit'])->name('setting.edit');
     Route::put('/setting/{id}/update', [SettingController::class , 'update'])->name('setting.update');
     Route::delete('/setting/destroy', [SettingController::class , 'destroy'])->name('setting.destroy');
+
+    Route::get('/pageseo', [PageseoController::class , 'index'])->name('pageseo');
+    Route::get('/pageseo/create', [PageseoController::class , 'create'])->name('pageseo.create');
+    Route::post('/pageseo/store', [PageseoController::class , 'store'])->name('pageseo.store');
+    Route::get('/pageseo/{id}/edit', [PageseoController::class , 'edit'])->name('pageseo.edit');
+    Route::put('/pageseo/{id}/update', [PageseoController::class , 'update'])->name('pageseo.update');
+    Route::delete('/pageseo/destroy', [PageseoController::class , 'destroy'])->name('pageseo.destroy');
 
     Route::get('/order', [OrderController::class , 'index'])->name('order');
     Route::get('/order/{id}/edit', [OrderController::class , 'edit'])->name('order.edit');
