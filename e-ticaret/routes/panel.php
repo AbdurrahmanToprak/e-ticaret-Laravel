@@ -3,6 +3,7 @@
 
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\ContactController;
+use App\Http\Controllers\Backend\CouponController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\OrderController;
 use App\Http\Controllers\Backend\PageseoController;
@@ -24,6 +25,14 @@ Route::group(['middleware' => ['panelsetting', 'auth'] , 'prefix' => 'panel', 'a
     Route::put('/slider/{id}/guncelle', [SliderController::class , 'update'])->name('slider.update');
     Route::delete('/slider/sil', [SliderController::class , 'destroy'])->name('slider.destroy');
     Route::post('/slider-status/update', [SliderController::class , 'status'])->name('slider.status');
+
+    Route::get('/coupon', [CouponController::class , 'index'])->name('coupon');
+    Route::get('/coupon/ekle', [CouponController::class , 'create'])->name('coupon.create');
+    Route::get('/coupon/{id}/duzenle', [CouponController::class , 'edit'])->name('coupon.edit');
+    Route::post('/coupon/kaydet', [CouponController::class , 'store'])->name('coupon.store');
+    Route::put('/coupon/{id}/guncelle', [CouponController::class , 'update'])->name('coupon.update');
+    Route::delete('/coupon/sil', [CouponController::class , 'destroy'])->name('coupon.destroy');
+    Route::post('/coupon-status/update', [CouponController::class , 'status'])->name('coupon.status');
 
     Route::resource('/category', CategoryController::class )->except('destroy');
     Route::delete('/category/sil', [CategoryController::class , 'destroy'])->name('category.destroy');
