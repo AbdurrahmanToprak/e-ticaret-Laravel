@@ -14,8 +14,28 @@ class CartController extends Controller
 
     public function index()
     {
+
         $cartItem = $this->cartList();
-        return view("frontend.pages.cart" , compact('cartItem'));
+
+        $breadcrumb =[
+            'sayfalar' => [
+
+            ],
+            'active' => 'İndirimli  Ürünler'
+        ];
+        $seolists = metaolustur('sepet');
+
+        $seo = [
+            'title' => $seolists['title'] ?? '',
+            'description' => $seolists['description'] ?? '',
+            'keywords' => $seolists['keywords'] ?? '',
+            'image' => asset('img/page-bg.jpg'),
+            'url' => $seolists['currenturl'],
+            'canonical' => $seolists['trpage'],
+            'robots' => 'noindex , follow',
+
+        ];
+        return view("frontend.pages.cart" , compact('seo','breadcrumb','cartItem'));
 
     }
 
@@ -53,7 +73,26 @@ class CartController extends Controller
     {
         $cartItem = $this->cartList();
 
-        return view("frontend.pages.cartForm" , compact('cartItem'));
+        $breadcrumb =[
+            'sayfalar' => [
+
+            ],
+            'active' => 'İndirimli  Ürünler'
+        ];
+        $seolists = metaolustur('sepet');
+
+        $seo = [
+            'title' => $seolists['title'] ?? '',
+            'description' => $seolists['description'] ?? '',
+            'keywords' => $seolists['keywords'] ?? '',
+            'image' => asset('img/page-bg.jpg'),
+            'url' => $seolists['currenturl'],
+            'canonical' => $seolists['trpage'],
+            'robots' => 'noindex , follow',
+
+        ];
+
+        return view("frontend.pages.cartForm" , compact('seo','breadcrumb','cartItem'));
 
     }
 
@@ -67,13 +106,22 @@ class CartController extends Controller
             return back()->withErrors('Urun Bulunamadi.');
         }
         $cartItem = session('cart' , []);
+
+        if(!empty($request->coupon_code) && $request->coupon_code == 'tumurun'){
+            $coupon = Coupon::where('name' , $request->coupon_code)->where('status' , '1')->first();
+
+            $couponPrice = $coupon->discount_rate ? 2 : 1;
+
+        }else{
+            $couponPrice = 1;
+        }
         if(array_key_exists($product_id,$cartItem)){
             $cartItem[$product_id]['piece'] += $piece;
         }else{
             $cartItem[$product_id] = [
               'image' => $urun->image,
                 'name' => $urun->name,
-                'price' => $urun->price,
+                'price' => $urun->price / $couponPrice,
                 'piece' => $piece ?? 1,
                 'kdv' => $urun->kdv,
                 'size' => $size,
@@ -98,14 +146,21 @@ class CartController extends Controller
         }
         $cartItem = session('cart' , []);
 
+
         if(array_key_exists($product_id,$cartItem)){
             $cartItem[$product_id]['piece'] = $piece;
             if($piece == 0 || $piece < 0){
                 unset($cartItem[$product_id]);
             }
+
+            if( session()->get('coupon_code') && session()->get('coupon_code') == 'tumurun'){
+                $price = $urun->price / 2;
+            }else{
+                $price = $urun->price;
+            }
             $kdvOraniitem = $urun->kdv ?? 0;
-            $kdvTutaritem = ($urun->price * $piece) * ($kdvOraniitem /100);
-            $itemTotal = $urun->price * $piece + $kdvTutaritem;
+            $kdvTutaritem = ($price * $piece) * ($kdvOraniitem /100);
+            $itemTotal = $price * $piece + $kdvTutaritem;
         }
 
         session(['cart' => $cartItem]);

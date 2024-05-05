@@ -110,7 +110,7 @@ class PageController extends Controller
 
         return view("frontend.pages.products" , compact('seo','breadcrumb','products','maxprice','sizelists', 'colors'));
     }
-    public function productsOnSale()
+    public function tumurunler()
     {
         $breadcrumb =[
             'sayfalar' => [

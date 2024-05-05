@@ -16,6 +16,8 @@
                         @csrf
                         <input type="hidden" name="product_id" value="{{$sifrele}}">
                         <input type="hidden" name="size" value="{{$product->size}}">
+                        <input type="hidden" name="coupon_code" value="{{request()->segment(1) == 'tumurunler-indirim' ? 'tumurun' : ''}}">
+
                         <button type="submit" class="buy-now btn btn-sm btn-primary">Sepete Ekle</button>
                     </form>
                 </div>

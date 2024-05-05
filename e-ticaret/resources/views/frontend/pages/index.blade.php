@@ -121,7 +121,7 @@
                 <div class="col-md-12 col-lg-5 text-center pl-md-5">
                     <h2>{{$settings['kampanya-title'] ?? ''}}</h2>
                     <p>{{$settings['kampanya-text'] ?? ''}}</p>
-                    <p><a href="{{route('productsOnSale')}}" class="btn btn-primary btn-sm">İndirimdeki Ürünler</a></p>
+                    <p><a href="{{route('tumurunlerindirim')}}" class="btn btn-primary btn-sm">İndirimdeki Ürünler</a></p>
                 </div>
             </div>
         </div>
