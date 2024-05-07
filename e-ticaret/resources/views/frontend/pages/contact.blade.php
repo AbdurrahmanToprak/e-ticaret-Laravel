@@ -24,7 +24,11 @@
                         @endforeach
                     @endif
 
-                <form action="{{route('contactStore')}}" method="post">
+                    <ul id="errors">
+
+                    </ul>
+
+                <form id="createForm" method="post">
                     @csrf
                     <div class="p-3 p-lg-5 border">
                         <div class="form-group row">
@@ -71,4 +75,55 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('customjs')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        $(document).on('submit', '#createForm', function (e) {
+            e.preventDefault();
+            const formData = $(this).serialize();
+            var item = $(this);
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                type: 'POST',
+                url: "{{ route('contactStore') }}",
+                data: formData,
+                success: function (response) {
+
+                    if(response.error == false){
+                        Swal.fire({
+                            title: "Başarılı!",
+                            text: response.message,
+                            icon: "success",
+                            confirmButtonText: 'Tamam'
+                        });
+                    }else{
+                        Swal.fire({
+                            title: 'Hatalı!',
+                            text: response.message,
+                            icon: 'error',
+                            confirmButtonText: 'Tamam'
+                        })
+                    }
+
+
+                    item.trigger('reset');
+                    // Hataları temizleme
+                    $('#errors').empty();
+                },
+                error: function (xhr, status, error) {
+                    $('#errors').empty();
+                    $.each(xhr.responseJSON.errors, function (key, item) {
+                        $("#errors").append("<li class='alert alert-danger'>" + item + "</li>");
+                    });
+
+                }
+            });
+        });
+    </script>
+
 @endsection

@@ -38,7 +38,7 @@ class AjaxController extends Controller
         ];
         Contact::create($newdata);
 
-        return back()->with(['message' => 'Başarıyla kaydedildi.']);
+        return response()->json(['error' => false,'message' => 'Başarıyla kaydedildi.']);
     }
 
     public function logout()
