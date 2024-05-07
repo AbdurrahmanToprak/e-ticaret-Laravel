@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ContentFromRequest;
+use App\Mail\ContactMail;
 use App\Models\Contact;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class AjaxController extends Controller
 {
@@ -37,6 +39,8 @@ class AjaxController extends Controller
 
         ];
         Contact::create($newdata);
+
+        Mail::to('demo@gmail.com')->send(new ContactMail($newdata));
 
         return response()->json(['error' => false,'message' => 'Başarıyla kaydedildi.']);
     }
