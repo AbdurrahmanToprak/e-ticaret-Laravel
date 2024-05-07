@@ -37,10 +37,13 @@ class PageController extends Controller
 
         if(!empty($category) && empty($slug)){
             $anakategori = Category::where('slug',$category)->first();
+            $categorySlug = $anakategori->slug ?? '';
 
         }else if(!empty($category) && !empty($slug)){
             $anakategori = Category::where('slug' , $category)->first();
             $altkategori = Category::where('slug' , $slug)->first();
+            $categorySlug = $altkategori->slug ?? '';
+
         }
 
         $breadcrumb =[
@@ -78,9 +81,9 @@ class PageController extends Controller
                 return $q;
             })
             ->with('category:id,name,slug')
-            ->whereHas('category', function ($q) use ($category,$slug){
-                if(!empty($slug)){
-                    $q->where('slug' , $slug);
+            ->whereHas('category', function ($q) use ($categorySlug){
+                if(!empty($categorySlug)){
+                    $q->where('slug' , $categorySlug);
                 }
                 return $q;
             }) ->orderBy($order,$sort)->paginate(21);

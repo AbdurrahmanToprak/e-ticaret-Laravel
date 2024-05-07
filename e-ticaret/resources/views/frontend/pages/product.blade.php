@@ -23,7 +23,7 @@
                 <div class="col-md-6">
                     <form action="{{route('cart_add')}}" method="POST">
                         @csrf
-                        <input type="hidden" name="product_id" value="{{$product->id}}">
+                        <input type="hidden" name="product_id" value="{{sifrele($product->id)}}">
                     <h2 class="text-black">{{$product->name ?? ''}}</h2>
                     {!! $product->content !!}
                     <p><strong class="text-primary h4">{{number_format($product->price,2) ?? ''}}</strong></p>
