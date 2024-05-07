@@ -34,12 +34,23 @@ class DashboardController extends Controller
         return view('backend.pages.index' , compact('monthOrdersCount','monthOrdersPrice' ,'ordersCount' , 'orderPrice' ,'topProducts'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+
+    public function orderchart()
     {
-        //
+        $aggregatedData =  Order::select(DB::raw('name , SUM(piece * price) as total_price'))
+            ->groupBy('name')
+            ->get();
+
+        $labels = $aggregatedData->pluck('name');
+        $data = $aggregatedData->pluck('total_price');
+
+        $data = [
+            'labels' => $labels,
+            'data' => $data,
+        ];
+
+        return view('backend.pages.chart' ,compact('data'));
+
     }
 
     /**

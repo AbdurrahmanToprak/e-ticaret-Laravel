@@ -18,6 +18,8 @@ use Illuminate\Support\Facades\Route;
 Route::group(['middleware' => ['panelsetting', 'auth'] , 'prefix' => 'panel', 'as' => 'panel.'] , function () {
 
     Route::get('/', [DashboardController::class , 'index'])->name('index');
+    Route::get('/chart', [DashboardController::class , 'orderchart'])->name('order.chart');
+
     Route::get('/slider', [SliderController::class , 'index'])->name('slider');
     Route::get('/slider/ekle', [SliderController::class , 'create'])->name('slider.create');
     Route::get('/slider/{id}/duzenle', [SliderController::class , 'edit'])->name('slider.edit');
