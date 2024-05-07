@@ -17,4 +17,8 @@ class Order extends Model
         'piece',
         'kdv',
     ];
+
+    public function product(){
+        return $this->hasOne(Product::class, 'id' , 'product_id' );
+    }
 }
