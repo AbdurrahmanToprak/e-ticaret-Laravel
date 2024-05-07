@@ -115,11 +115,20 @@ class CartController extends Controller
         }else{
             $couponPrice = 1;
         }
-        if(array_key_exists($product_id,$cartItem)){
-            $cartItem[$product_id]['piece'] += $piece;
-        }else{
-            $cartItem[$product_id] = [
-              'image' => $urun->image,
+
+        $sizeExists = false;
+
+        foreach ($cartItem as $key => $item){
+            if($item['size'] == $size) {
+                $cartItem[$key]['piece'] += $piece;
+                $sizeExists = true;
+                break;
+            }
+        }
+        if(!$sizeExists){
+            $cartItem[] = [
+                'product_id' => $product_id,
+                'image' => $urun->image,
                 'name' => $urun->name,
                 'price' => $urun->price / $couponPrice,
                 'piece' => $piece ?? 1,
